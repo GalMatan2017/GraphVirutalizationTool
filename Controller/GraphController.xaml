@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="GraphVirtualizationTool.GraphController"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Button Style="{StaticResource RoundCorner}" Click="onOpenGraphFileClickButton"  Height="100" Content="Insert Graph File">
+            </Button>
+            <TextBlock Name="fileName" FontSize="15" TextWrapping="Wrap" Text="{Binding Filename}" HorizontalAlignment="Center" ></TextBlock>
+            <TextBlock Name="graphInfo" FontSize="15" TextWrapping="Wrap" Text="{Binding GraphInfo}" HorizontalAlignment="Center" ></TextBlock>
+            <CheckBox x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Margin="0,0,0,10"
+         Unchecked = "HandleUnchecked" Width = "90"/>
+            <TextBlock HorizontalAlignment="Center">X Spacing</TextBlock>
+            <Slider Name="spaceX" Maximum="10" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="space_ValueChanged"></Slider>
+            <TextBlock HorizontalAlignment="Center">Y Spacing</TextBlock>
+            <Slider Name="spaceY" Maximum="10" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="space_ValueChanged"></Slider>
+            <TextBlock HorizontalAlignment="Center">Zoom</TextBlock>
+            <Slider Name="zoom"  Value="3" Maximum="5" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="zoom_ValueChanged"></Slider>
+
+            <Button Content="Save" Width="50" Click="SaveGraph"></Button>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
