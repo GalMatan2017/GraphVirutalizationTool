@@ -23,11 +23,11 @@
                            IsEnabled="{Binding IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}">
                     <Thumb.Template>
                         <ControlTemplate TargetType="Thumb">
-                            <Canvas Margin="-10,-10,10,10">
+                            <Canvas>
                                 <Ellipse Height="{Binding NodeSize}" Width="{Binding NodeSize}" Stroke="Black" StrokeThickness="1" Fill="{Binding NodeColor}"
                                              x:Name="Ellipse">
                                 </Ellipse>
-                                <TextBlock Canvas.Top="-20" Canvas.Left="-40" Width="100" 
+                                <TextBlock Canvas.Top="-30" Canvas.Left="-30" Width="100" 
                                                TextAlignment="Center" Text="{Binding Name}" FontWeight="Bold"
                                                Visibility="{Binding DataContext.ShowNames, 
                                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window},
@@ -60,12 +60,12 @@
             <!-- This is the DataTemplate that will be used to render the Connector class -->
             <DataTemplate DataType="{x:Type local:Edge}">
                 <Line Stroke="Blue" StrokeThickness="3"
-                            X1="{Binding Start.X}" Y1="{Binding Start.Y}"
-                            X2="{Binding End.X}" Y2="{Binding End.Y}" x:Name="Line"/>
+                            X1="{Binding Start.CenterX}" Y1="{Binding Start.CenterY}"
+                            X2="{Binding End.CenterX}" Y2="{Binding End.CenterY}" x:Name="Line"/>
                 <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding End}" Value="{x:Null}">
+                    <!--<DataTrigger Binding="{Binding End}" Value="{x:Null}">
                         <Setter TargetName="Line" Property="Visibility" Value="Collapsed"/>
-                    </DataTrigger>
+                    </DataTrigger>-->
                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
                         <Setter TargetName="Line" Property="Stroke" Value="Red"/>
                         <Setter TargetName="Line" Property="StrokeDashArray" Value="2 3"/>

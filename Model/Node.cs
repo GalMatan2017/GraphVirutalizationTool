@@ -18,7 +18,10 @@ namespace GraphVirtualizationTool
                     _x = 0;
                 else
                     _x = value;
+
+                CenterX = _x + Node._nodeSize / 2;
                 OnPropertyChanged("X");
+                OnPropertyChanged("CenterX");
             }
         }
         private double _y;       
@@ -33,6 +36,7 @@ namespace GraphVirtualizationTool
                     _y = 0;
                 else
                     _y = value;
+                CenterY = (int)_y + Node._nodeSize / 2;
                 OnPropertyChanged("Y");
             }
         }
@@ -71,6 +75,27 @@ namespace GraphVirtualizationTool
                     _nodeSize = value;
                     OnPropertyChanged("NodeSize");
                 }
+            }
+        }
+
+        private double center_x;
+
+        private double center_y;
+        public double CenterX {
+            get { return center_x; }
+            set
+            {
+                center_x = value;
+                OnPropertyChanged("CenterX");
+            }
+        }
+        public double CenterY
+        {
+            get { return center_y; }
+            set
+            {
+                center_y = value;
+                OnPropertyChanged("CenterY");
             }
         }
 

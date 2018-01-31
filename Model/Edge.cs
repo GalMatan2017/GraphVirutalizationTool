@@ -25,8 +25,11 @@ namespace GraphVirtualizationTool
             get { return _start; }
             set
             {
-                _start = value;
-                OnPropertyChanged("Start");
+                if (value != null) {
+
+                    _start = value;
+                     OnPropertyChanged("Start");
+                }
             }
         }
 
@@ -36,8 +39,12 @@ namespace GraphVirtualizationTool
             get { return _end; }
             set
             {
-                _end = value;
-                OnPropertyChanged("End");
+                if (value != null)
+                {
+
+                    _end = value;
+                    OnPropertyChanged("Start");
+                }
             }
         }
     }

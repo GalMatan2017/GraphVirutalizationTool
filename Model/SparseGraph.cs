@@ -23,37 +23,21 @@ namespace GraphVirtualizationTool.Model
             return data[node-1]; 
         }
         public GraphTypes GraphType { get; set; } = GraphTypes.Sparse;
-        private string _graphinfo { get; set; }
-        public string GraphInfo
+        private int _connComps { get; set; }
+        public int ConnectedComps
         {
             get
             {
-                return _graphinfo;
+                return _connComps;
             }
             set
             {
-                if (value != null)
-                    _graphinfo = value;
-                OnPropertyChanged("GraphInfo");
+                if (value != 0)
+                    _connComps = value;
+                OnPropertyChanged("ConnectedComps");
             }
         }
-        private bool _isBipartite { get; set; } = false;
-        public bool IsBipartite
-        {
-            get
-            {
-                return _isBipartite;
-            }
-            set
-            {
-                _isBipartite = value;
-                if (value == true)
-                    GraphInfo = "A bipartite graph";
-                else
-                    GraphInfo = "A non-bipartite graph";
-                OnPropertyChanged("IsBipartite");
-            }
-        }
+        public bool IsBipartite { get; set; } = false;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

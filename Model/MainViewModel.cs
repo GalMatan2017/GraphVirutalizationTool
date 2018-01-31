@@ -92,7 +92,14 @@ namespace GraphVirtualizationTool
         }
         #endregion
 
-        #region Scrolling support
+        #region Canvas
+        private Canvas _mainCanvas;
+        public Canvas MainCanvas
+        {
+            get { return _mainCanvas; }
+            set { if (value != null) _mainCanvas = value; }
+        }
+
         private int _canvasHeight;
         public int CanvasHeight
         {
@@ -112,15 +119,6 @@ namespace GraphVirtualizationTool
                 _canvasWidth = value;
                 OnPropertyChanged("CanvasWidth");
             }
-        }
-        #endregion
-
-        #region Canvas
-        private Canvas _mainCanvas;
-        public Canvas MainCanvas
-        {
-            get { return _mainCanvas; }
-            set { if (value != null) _mainCanvas = value; }
         }
         #endregion
 

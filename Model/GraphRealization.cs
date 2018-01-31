@@ -9,8 +9,9 @@ namespace GraphVirtualizationTool.Model
 {
     class GraphRealization
     {
+        public static int DEFAULT_SIZE = 30;
 
-        public static Tuple<IEnumerable<Node>, IEnumerable<Edge>> draw<T>(Graph graph,int[] colorArr,int[] conn_comps,int marginX, int marginY)
+        public static Tuple<IEnumerable<Node>, IEnumerable<Edge>> draw<T>(Graph graph,int[] colorArr,int[] conn_comps)
         {
             List<Node> nodes = new List<Node>();
             List<Edge> edges = new List<Edge>();
@@ -19,6 +20,10 @@ namespace GraphVirtualizationTool.Model
 
             int comps = 0;
             int total_nodes = graph.getData<T>().Count;
+
+
+            int marginX = DEFAULT_SIZE;
+            int marginY = DEFAULT_SIZE;
 
             List<Point> coordinates = new List<Point>();
 
@@ -71,7 +76,7 @@ namespace GraphVirtualizationTool.Model
                     yFactor[2 * conn_comps[i] - colorArr[i] - 1] += marginY + Node._nodeSize;
                 }
 
-                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros:ones * Node._nodeSize) + (marginY * (zeros > ones ? zeros+1 : ones+1));
+                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * Node._nodeSize : ones * Node._nodeSize) + (marginY * (zeros > ones ? zeros+1 : ones+1));
                 MainViewModel.getInstance().CanvasWidth = 2 * Node._nodeSize + (marginX) * 3;
             }
 

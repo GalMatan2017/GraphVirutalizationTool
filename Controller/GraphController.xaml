@@ -5,22 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-        <StackPanel>
-            <Button Style="{StaticResource RoundCorner}" Click="onOpenGraphFileClickButton"  Height="100" Content="Insert Graph File">
-            </Button>
-            <TextBlock Name="fileName" FontSize="15" TextWrapping="Wrap" Text="{Binding Filename}" HorizontalAlignment="Center" ></TextBlock>
-            <TextBlock Name="graphInfo" FontSize="15" TextWrapping="Wrap" Text="{Binding GraphInfo}" HorizontalAlignment="Center" ></TextBlock>
-            <CheckBox x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Margin="0,0,0,10"
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource RoundCorner}" Click="onOpenGraphFileClickButton"  Height="50" Content="Open"></Button>
+            <TextBlock Grid.Row="1" Text="Filename: "/>
+            <TextBox Grid.Row="1" Grid.Column="1" Name="fileName" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding Filename}"></TextBox>
+            <TextBlock Grid.Row="2" Text="Components: "/>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="connComps" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding ConnectedComps}"></TextBox>
+            <TextBlock Grid.Row="3" Text="Is Bipartite: "/>
+            <CheckBox Grid.Row="3" Grid.Column="1" Name="isBip_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
+            <Separator Grid.Row="4" Grid.ColumnSpan="2"></Separator>
+            <CheckBox Grid.Row="5" x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Grid.ColumnSpan="2"
          Unchecked = "HandleUnchecked" Width = "90"/>
-            <TextBlock HorizontalAlignment="Center">X Spacing</TextBlock>
-            <Slider Name="spaceX" Maximum="10" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="space_ValueChanged"></Slider>
-            <TextBlock HorizontalAlignment="Center">Y Spacing</TextBlock>
-            <Slider Name="spaceY" Maximum="10" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="space_ValueChanged"></Slider>
-            <TextBlock HorizontalAlignment="Center">Zoom</TextBlock>
-            <Slider Name="zoom"  Value="3" Maximum="5" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10" ValueChanged="zoom_ValueChanged"></Slider>
-
-            <Button Content="Save" Width="50" Click="SaveGraph"></Button>
-        </StackPanel>
+            <TextBlock Grid.Row="6" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Zoom</TextBlock>
+            <Slider  Grid.ColumnSpan="2" Grid.Row="7" Name="zoom" Value="1" Maximum="10" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="zoom_ValueChanged"></Slider>
+            <Button  Grid.ColumnSpan="2" Grid.Row="8" Content="Save" Width="50" Click="SaveGraph"></Button>
+        </Grid>
+        
     </ScrollViewer>
 
 </UserControl>

@@ -14,9 +14,7 @@ namespace GraphVirtualizationTool
         Algorithms algorithms;
         GraphTypes type;
 
-        const int DEFAULT_NODE_SIZE = 20;
-        const int DEFAULT_SPACING = DEFAULT_NODE_SIZE * 2;
-        int spacing = DEFAULT_SPACING;
+        int nodes_count;
         int[] color_array;
         int[] connected_comps;
 
@@ -26,12 +24,13 @@ namespace GraphVirtualizationTool
             DataContext = this;
             globals = GraphGlobalVariables.getInstance();
             fileName.DataContext = globals;
-            graphInfo.DataContext = null;
         }
 
         private void onOpenGraphFileClickButton(object sender, System.Windows.RoutedEventArgs e)
         {
             algorithms = new Algorithms();
+
+
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt)|*.txt";
             if (openFileDialog.ShowDialog() == true)
@@ -60,7 +59,8 @@ namespace GraphVirtualizationTool
 
                     graph.setData(am.ParseFile<bool>(globals.Filepath));
 
-                    int nodes_count = graph.getData<bool>().Count;
+                    nodes_count = graph.getData<bool>().Count;
+
                     //number of vertices to be "colored"
                     color_array = new int[nodes_count];
                     //number of vertices which each of vertex represented by the list index and the value is the component class number
@@ -69,9 +69,14 @@ namespace GraphVirtualizationTool
                     if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
                     {
                         graph.IsBipartite = true;
+                        isBip_cb.IsChecked = true;
                     }
-
-                    GraphRealization.draw<bool>(graph, color_array, connected_comps, spacing, spacing);
+                    else
+                    {
+                        graph.IsBipartite = false;
+                        isBip_cb.IsChecked = false;
+                    }
+                    GraphRealization.draw<bool>(graph, color_array, connected_comps);
                     #endregion
                 }
 
@@ -83,21 +88,34 @@ namespace GraphVirtualizationTool
 
                     graph.setData(am.ParseFile<int>(globals.Filepath));
 
-                    int node_count = graph.getData<int>().Count;
-                    //number of vertices to be colored
-                    color_array = new int[node_count];
-                    //number of vertices which each of vertex represented by the list index and the value is the component class number
-                    connected_comps = new int[node_count];
+                    nodes_count = graph.getData<int>().Count;
 
-                    if (algorithms.isBipartite<int>(graph, node_count, color_array, GraphTypes.Sparse, connected_comps))
+                    //number of vertices to be colored
+                    color_array = new int[nodes_count];
+                    //number of vertices which each of vertex represented by the list index and the value is the component class number
+                    connected_comps = new int[nodes_count];
+
+                    if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
                     {
                         graph.IsBipartite = true;
+                        isBip_cb.IsChecked = true;
                     }
-
-                    GraphRealization.draw<int>(graph, color_array, connected_comps, spacing, spacing);
+                    else
+                    {
+                        graph.IsBipartite = false;
+                        isBip_cb.IsChecked = false;
+                    }
+                    GraphRealization.draw<int>(graph, color_array, connected_comps);
                     #endregion
                 }
-                graphInfo.DataContext = graph;
+
+                connComps.DataContext = graph;
+                graph.ConnectedComps = 0;
+                for (int i = 0; i < nodes_count; i++)
+                {
+                    if (connected_comps[i] > graph.ConnectedComps)
+                        graph.ConnectedComps = connected_comps[i];
+                }
             }
         }
 
@@ -107,7 +125,6 @@ namespace GraphVirtualizationTool
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
             CheckBox cb = sender as CheckBox;
-            MainViewModel.getInstance().CanvasHeight = 300;
             if (cb.Name == "showNamesBox") MainViewModel.getInstance().ShowNames = true;
         }
         private void HandleUnchecked(object sender, RoutedEventArgs e)
@@ -121,28 +138,12 @@ namespace GraphVirtualizationTool
             GraphGlobalVariables.getInstance().ExportToPng(MainViewModel.getInstance().MainCanvas);
         }
 
-        private void space_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (graph != null)
-            {
-                if (graph.GraphType == GraphTypes.Dense)
-                    GraphRealization.draw<bool>(graph, color_array, connected_comps, spacing * (int)spaceX.Value, spacing * (int)spaceY.Value);
-                else
-                    GraphRealization.draw<int>(graph, color_array, connected_comps, spacing * (int)spaceX.Value, spacing * (int)spaceY.Value);
-            }
-
-        }
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             foreach (var node in MainViewModel.getInstance().Nodes)
             {
-                if ((int)zoom.Value < 3)
-                    node.NodeSize = DEFAULT_NODE_SIZE * ((int)zoom.Value - 3);
-                node.NodeSize = DEFAULT_NODE_SIZE * ((int)zoom.Value - 2);
+                node.NodeSize = GraphRealization.DEFAULT_SIZE * (int)zoom.Value;
             }
-
-            spacing = DEFAULT_SPACING * (int)zoom.Value - 2;
-            space_ValueChanged(sender, e);
         }
     }
 }
