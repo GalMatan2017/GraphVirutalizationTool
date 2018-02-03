@@ -10,7 +10,7 @@ namespace GraphVirtualizationTool.Model
         private int componentlistIndex = 0;
         private bool bipartiteflag;
         private bool isConnectedflag;
-        public bool isBipartite_util<T>(List<List<T>> graph, int src, int nodes_size, int[] colorArr, GraphTypes graphType, int[] componentlist)
+        public void isBipartite_util<T>(List<List<T>> graph, int src, int nodes_size, int[] colorArr, GraphTypes graphType, int[] componentlist)
         {
             //Create a queue (FIFO) of vertex numbers and enqueue source vertex
             //for BFS traversal
@@ -53,10 +53,13 @@ namespace GraphVirtualizationTool.Model
                                 //An edge from u to v exists and destination v is colored with
                                 //same color as u
                                 else if (dense_graph[u][v] && colorArr[v] == colorArr[u])
-                                    return false;
+                                {
+                                    bipartiteflag = false;
+
+                                }
                             }
                         }
-                        return true;
+                        break;
                     }
                 case (GraphTypes.Sparse):
                     {
@@ -74,8 +77,6 @@ namespace GraphVirtualizationTool.Model
                             //Dequeue a vertex from queue  
                             int u = q.Peek();
                             q.Dequeue();
-                            //int[] level = new int[graph.Count];
-                            //int vertex = 0;
                             for (int i = 1; i < sparse_graph[u - 1].Count; i++)
                             {
                                 if ((colorArr[sparse_graph[u - 1][i] - 1] == -1))
@@ -86,13 +87,19 @@ namespace GraphVirtualizationTool.Model
                                     q.Enqueue(sparse_graph[u - 1][i]);
                                 }
                                 else if (colorArr[sparse_graph[u - 1][i] - 1] == colorArr[u - 1])
-                                    return false;
+                                {
+                                    bipartiteflag = false;
+
+                                }
                             }
                         }
-                        return true;
+                        break;
                     }
                 default:
-                    return false;
+                    {
+                        bipartiteflag = false;
+                        break;
+                    }
             }
         }
         public bool isBipartite<T>(Graph graph, int nodes_count, int[] colorArr, GraphTypes graphType, int[] conn_comps)//remove scr
@@ -107,16 +114,13 @@ namespace GraphVirtualizationTool.Model
                 if (colorArr[i] == -1)
                 {
                     componentlistIndex++;
-                    if (!isBipartite_util(graph.getData<T>(), i, nodes_count, colorArr, graphType, conn_comps))
+                    isBipartite_util(graph.getData<T>(), i, nodes_count, colorArr, graphType, conn_comps);
+                    if (i == 0)
                     {
-                        bipartiteflag = false;
-                        if (i == 0)
+                        for (int j = 0; j < nodes_count; ++j)
                         {
-                            for (int j = 0; j < nodes_count; ++j)
-                            {
-                                if (colorArr[j] == -1)
-                                    isConnectedflag = false;
-                            }
+                            if (colorArr[j] == -1)
+                                isConnectedflag = false;
                         }
                     }
                 }

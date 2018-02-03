@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Controls;
 using GraphVirtualizationTool.Model;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace GraphVirtualizationTool
 {
@@ -26,7 +27,7 @@ namespace GraphVirtualizationTool
             fileName.DataContext = globals;
         }
 
-        private void onOpenGraphFileClickButton(object sender, System.Windows.RoutedEventArgs e)
+        private async void onOpenGraphFileClickButton(object sender, System.Windows.RoutedEventArgs e)
         {
             algorithms = new Algorithms();
 
@@ -54,11 +55,11 @@ namespace GraphVirtualizationTool
                 {
                     #region Dense
                     graph = new DenseGraph();
-                    AdjacencyMatrix am = new AdjacencyMatrix();
-                    List<List<bool>> data;
+                    List<List<bool>> data = null;
                     try
                     {
-                        data = am.ParseFile<bool>(globals.Filepath);
+                        await Task.Factory.StartNew(() => setMatrix(data));
+                        await Task.Factory.StartNew(() => new GraphRealization().draw<bool>(graph, color_array, connected_comps, 30, 0, 0));
                     }
                     catch(Exception ex)
                     {
@@ -66,35 +67,35 @@ namespace GraphVirtualizationTool
                         return;
                     }
 
-                    graph.setData(data);
+                    //graph.setData(data);
 
-                    nodes_count = graph.getData<bool>().Count;
+                    //nodes_count = graph.getData<bool>().Count;
 
-                    //number of vertices to be "colored"
-                    color_array = new int[nodes_count];
-                    //number of vertices which each of vertex represented by the list index and the value is the component class number
-                    connected_comps = new int[nodes_count];
+                    ////number of vertices to be "colored"
+                    //color_array = new int[nodes_count];
+                    ////number of vertices which each of vertex represented by the list index and the value is the component class number
+                    //connected_comps = new int[nodes_count];
 
-                    if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
-                    {
-                        graph.IsBipartite = true;
-                        isBip_cb.IsChecked = true;
-                        rb_controller.IsEnabled = false;
-                        rb_random.IsChecked = false;
-                        rb_squared.IsChecked = false;
-                        rb_controller.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        graph.IsBipartite = false;
-                        isBip_cb.IsChecked = false;
-                        rb_controller.IsEnabled = true;
-                        rb_random.IsChecked = true;
-                        rb_squared.IsChecked = false;
-                        rb_controller.Visibility = Visibility.Visible;
-                        GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
-                    }
-                    GraphRealization.draw<bool>(graph, color_array, connected_comps);
+                    //if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
+                    //{
+                    //    graph.IsBipartite = true;
+                    //    isBip_cb.IsChecked = true;
+                    //    rb_controller.IsEnabled = false;
+                    //    rb_random.IsChecked = false;
+                    //    rb_squared.IsChecked = false;
+                    //    rb_controller.Visibility = Visibility.Hidden;
+                    //}
+                    //else
+                    //{
+                    //    graph.IsBipartite = false;
+                    //    isBip_cb.IsChecked = false;
+                    //    rb_controller.IsEnabled = true;
+                    //    rb_random.IsChecked = true;
+                    //    rb_squared.IsChecked = false;
+                    //    rb_controller.Visibility = Visibility.Visible;
+                    //    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                    //}
+                    //GraphRealization.draw<bool>(graph, color_array, connected_comps);
                     #endregion
                 }
 
@@ -102,11 +103,11 @@ namespace GraphVirtualizationTool
                 {
                     #region Sparse
                     graph = new SparseGraph();
-                    AdjacencyList al = new AdjacencyList();
-                    List<List<bool>> data;
+                    List<List<int>> data = null;
                     try
                     {
-                        data = al.ParseFile<bool>(globals.Filepath);
+                        await Task.Factory.StartNew(() => setList(data));
+                        await Task.Factory.StartNew(() => new GraphRealization().draw<int>(graph, color_array, connected_comps, 30, 0, 0));
                     }
                     catch (Exception ex)
                     {
@@ -114,35 +115,35 @@ namespace GraphVirtualizationTool
                         return;
                     }
 
-                    graph.setData(data);
+                    //graph.setData(data);
 
-                    nodes_count = graph.getData<int>().Count;
+                    //nodes_count = graph.getData<int>().Count;
 
-                    //number of vertices to be colored
-                    color_array = new int[nodes_count];
-                    //number of vertices which each of vertex represented by the list index and the value is the component class number
-                    connected_comps = new int[nodes_count];
+                    ////number of vertices to be colored
+                    //color_array = new int[nodes_count];
+                    ////number of vertices which each of vertex represented by the list index and the value is the component class number
+                    //connected_comps = new int[nodes_count];
 
-                    if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
-                    {
-                        graph.IsBipartite = true;
-                        isBip_cb.IsChecked = true;
-                        rb_controller.IsEnabled = false;
-                        rb_random.IsChecked = false;
-                        rb_squared.IsChecked = false;
-                        rb_controller.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        graph.IsBipartite = false;
-                        isBip_cb.IsChecked = false;
-                        rb_controller.IsEnabled = true;
-                        rb_random.IsChecked = true;
-                        rb_squared.IsChecked = false;
-                        rb_controller.Visibility = Visibility.Visible;
-                        GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
-                    }
-                    GraphRealization.draw<int>(graph, color_array, connected_comps);
+                    //if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
+                    //{
+                    //    graph.IsBipartite = true;
+                    //    isBip_cb.IsChecked = true;
+                    //    rb_controller.IsEnabled = false;
+                    //    rb_random.IsChecked = false;
+                    //    rb_squared.IsChecked = false;
+                    //    rb_controller.Visibility = Visibility.Hidden;
+                    //}
+                    //else
+                    //{
+                    //    graph.IsBipartite = false;
+                    //    isBip_cb.IsChecked = false;
+                    //    rb_controller.IsEnabled = true;
+                    //    rb_random.IsChecked = true;
+                    //    rb_squared.IsChecked = false;
+                    //    rb_controller.Visibility = Visibility.Visible;
+                    //    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                    //}
+                    //new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
                     #endregion
                 }
 
@@ -155,6 +156,93 @@ namespace GraphVirtualizationTool
                 }
             }
         }
+
+
+        private void setMatrix(List<List<bool>> data)
+        {
+            AdjacencyMatrix am = new AdjacencyMatrix();
+
+            data = am.ParseFile<bool>(globals.Filepath);
+
+            graph.setData(data);
+
+            nodes_count = graph.getData<bool>().Count;
+
+            //number of vertices to be "colored"
+            color_array = new int[nodes_count];
+            //number of vertices which each of vertex represented by the list index and the value is the component class number
+            connected_comps = new int[nodes_count];
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
+                {
+                    graph.IsBipartite = true;
+                    isBip_cb.IsChecked = true;
+                    rb_controller.IsEnabled = false;
+                    rb_random.IsChecked = false;
+                    rb_squared.IsChecked = false;
+                    rb_controller.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    graph.IsBipartite = false;
+                    isBip_cb.IsChecked = false;
+                    rb_controller.IsEnabled = true;
+                    rb_random.Checked -= rb_random_Checked;
+                    rb_random.IsChecked = true;
+                    rb_random.Checked += rb_random_Checked;
+                    rb_squared.IsChecked = false;
+                    rb_controller.Visibility = Visibility.Visible;
+                    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                }
+
+            }));
+        }
+
+        private void setList(List<List<int>> data)
+        {
+
+            AdjacencyList al = new AdjacencyList();
+
+            data = al.ParseFile<int>(globals.Filepath);
+
+            graph.setData(data);
+
+            nodes_count = graph.getData<int>().Count;
+
+            //number of vertices to be colored
+            color_array = new int[nodes_count];
+            //number of vertices which each of vertex represented by the list index and the value is the component class number
+            connected_comps = new int[nodes_count];
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
+                {
+                    graph.IsBipartite = true;
+                    isBip_cb.IsChecked = true;
+                    rb_controller.IsEnabled = false;
+                    rb_random.IsChecked = false;
+                    rb_squared.IsChecked = false;
+                    rb_controller.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    graph.IsBipartite = false;
+                    isBip_cb.IsChecked = false;
+                    rb_controller.IsEnabled = true;
+                    rb_random.Checked -= rb_random_Checked;
+                    rb_random.IsChecked = true;
+                    rb_random.Checked += rb_random_Checked;
+                    rb_squared.IsChecked = false;
+                    rb_controller.Visibility = Visibility.Visible;
+                    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                }
+
+            }));
+        }
+
 
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
@@ -187,11 +275,11 @@ namespace GraphVirtualizationTool
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
             if (type == GraphTypes.Dense) {
-                GraphRealization.draw<bool>(graph, color_array, connected_comps);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps,30,0,0);
             }
             else
             {
-                GraphRealization.draw<int>(graph, color_array, connected_comps);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
             }
         }
 
@@ -200,11 +288,11 @@ namespace GraphVirtualizationTool
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
             if (type == GraphTypes.Dense)
             {
-                GraphRealization.draw<bool>(graph, color_array, connected_comps);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps,30,0,0);
             }
             else
             {
-                GraphRealization.draw<int>(graph, color_array, connected_comps);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
             }
         }
     }

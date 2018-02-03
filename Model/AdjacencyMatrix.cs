@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GraphVirtualizationTool.Model
 {
@@ -9,8 +10,7 @@ namespace GraphVirtualizationTool.Model
     {
         public List<List<T>> ParseFile<T>(string filename)
         {
-            List<List<bool>> matrix = new List<List<bool>>();
-
+            List <List<bool>> matrix = new List<List<bool>>();
             StreamReader reader = File.OpenText(filename);
 
             string line;
