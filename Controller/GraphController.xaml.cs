@@ -30,7 +30,6 @@ namespace GraphVirtualizationTool
         {
             algorithms = new Algorithms();
 
-
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt)|*.txt";
             if (openFileDialog.ShowDialog() == true)
@@ -56,8 +55,18 @@ namespace GraphVirtualizationTool
                     #region Dense
                     graph = new DenseGraph();
                     AdjacencyMatrix am = new AdjacencyMatrix();
+                    List<List<bool>> data;
+                    try
+                    {
+                        data = am.ParseFile<bool>(globals.Filepath);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
 
-                    graph.setData(am.ParseFile<bool>(globals.Filepath));
+                    graph.setData(data);
 
                     nodes_count = graph.getData<bool>().Count;
 
@@ -93,9 +102,19 @@ namespace GraphVirtualizationTool
                 {
                     #region Sparse
                     graph = new SparseGraph();
-                    AdjacencyList am = new AdjacencyList();
+                    AdjacencyList al = new AdjacencyList();
+                    List<List<bool>> data;
+                    try
+                    {
+                        data = al.ParseFile<bool>(globals.Filepath);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
 
-                    graph.setData(am.ParseFile<int>(globals.Filepath));
+                    graph.setData(data);
 
                     nodes_count = graph.getData<int>().Count;
 
