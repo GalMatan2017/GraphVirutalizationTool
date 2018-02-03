@@ -71,6 +71,9 @@ namespace GraphVirtualizationTool
                         graph.IsBipartite = true;
                         isBip_cb.IsChecked = true;
                         rb_controller.IsEnabled = false;
+                        rb_random.IsChecked = false;
+                        rb_squared.IsChecked = false;
+                        rb_controller.Visibility = Visibility.Hidden;
                     }
                     else
                     {
@@ -79,6 +82,7 @@ namespace GraphVirtualizationTool
                         rb_controller.IsEnabled = true;
                         rb_random.IsChecked = true;
                         rb_squared.IsChecked = false;
+                        rb_controller.Visibility = Visibility.Visible;
                         GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
                     }
                     GraphRealization.draw<bool>(graph, color_array, connected_comps);
@@ -105,6 +109,9 @@ namespace GraphVirtualizationTool
                         graph.IsBipartite = true;
                         isBip_cb.IsChecked = true;
                         rb_controller.IsEnabled = false;
+                        rb_random.IsChecked = false;
+                        rb_squared.IsChecked = false;
+                        rb_controller.Visibility = Visibility.Hidden;
                     }
                     else
                     {
@@ -113,6 +120,7 @@ namespace GraphVirtualizationTool
                         rb_controller.IsEnabled = true;
                         rb_random.IsChecked = true;
                         rb_squared.IsChecked = false;
+                        rb_controller.Visibility = Visibility.Visible;
                         GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
                     }
                     GraphRealization.draw<int>(graph, color_array, connected_comps);
