@@ -60,15 +60,13 @@ namespace GraphVirtualizationTool.Model
                 }
 
                 //margin top
-                for (int i = 0; i < comps*2; i++)
-                {
-                    yFactor[i] += MARGIN_Y;
-                }
+                yFactor[0] = MARGIN_Y;
+                yFactor[1] = MARGIN_Y;
 
                 //place pair y factors foreach component's color
                 for (int i = 1; i < comps; i++)
                 {
-                    yFactor[i*2] += (MARGIN_Y + Node._nodeSize) * (comps_colors_zeros[i/2] > comps_colors_ones[i/2] ? comps_colors_zeros[i/2] : comps_colors_ones[i/2]);
+                    yFactor[i*2] += yFactor[(i-1) * 2] + (MARGIN_Y + Node._nodeSize) * (comps_colors_zeros[i/2] > comps_colors_ones[i/2] ? comps_colors_zeros[i/2] : comps_colors_ones[i/2]);
                     yFactor[i * 2 + 1] = yFactor[i * 2];
                 }
 
