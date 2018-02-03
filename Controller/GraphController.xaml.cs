@@ -70,11 +70,16 @@ namespace GraphVirtualizationTool
                     {
                         graph.IsBipartite = true;
                         isBip_cb.IsChecked = true;
+                        rb_controller.IsEnabled = false;
                     }
                     else
                     {
                         graph.IsBipartite = false;
                         isBip_cb.IsChecked = false;
+                        rb_controller.IsEnabled = true;
+                        rb_random.IsChecked = true;
+                        rb_squared.IsChecked = false;
+                        GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
                     }
                     GraphRealization.draw<bool>(graph, color_array, connected_comps);
                     #endregion
@@ -99,11 +104,16 @@ namespace GraphVirtualizationTool
                     {
                         graph.IsBipartite = true;
                         isBip_cb.IsChecked = true;
+                        rb_controller.IsEnabled = false;
                     }
                     else
                     {
                         graph.IsBipartite = false;
                         isBip_cb.IsChecked = false;
+                        rb_controller.IsEnabled = true;
+                        rb_random.IsChecked = true;
+                        rb_squared.IsChecked = false;
+                        GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
                     }
                     GraphRealization.draw<int>(graph, color_array, connected_comps);
                     #endregion
@@ -118,9 +128,6 @@ namespace GraphVirtualizationTool
                 }
             }
         }
-
-
-
 
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
@@ -142,7 +149,35 @@ namespace GraphVirtualizationTool
         {
             foreach (var node in MainViewModel.getInstance().Nodes)
             {
-                node.NodeSize = GraphRealization.DEFAULT_SIZE * (int)zoom.Value;
+                GraphRealization.MARGIN_X = node.NodeSize;
+                GraphRealization.MARGIN_Y = GraphRealization.MARGIN_X;
+                node.NodeSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/5;
+
+            }
+        }
+
+        private void rb_squared_Checked(object sender, RoutedEventArgs e)
+        {
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
+            if (type == GraphTypes.Dense) {
+                GraphRealization.draw<bool>(graph, color_array, connected_comps);
+            }
+            else
+            {
+                GraphRealization.draw<int>(graph, color_array, connected_comps);
+            }
+        }
+
+        private void rb_random_Checked(object sender, RoutedEventArgs e)
+        {
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+            if (type == GraphTypes.Dense)
+            {
+                GraphRealization.draw<bool>(graph, color_array, connected_comps);
+            }
+            else
+            {
+                GraphRealization.draw<int>(graph, color_array, connected_comps);
             }
         }
     }

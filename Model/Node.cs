@@ -21,7 +21,6 @@ namespace GraphVirtualizationTool
 
                 CenterX = _x + Node._nodeSize / 2;
                 OnPropertyChanged("X");
-                OnPropertyChanged("CenterX");
             }
         }
         private double _y;       
