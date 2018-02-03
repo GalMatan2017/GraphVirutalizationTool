@@ -122,7 +122,7 @@ namespace GraphVirtualizationTool.Model
                     coordinates.Add(new Point(xFactor[conn_comps[i] - 1],yFactor[conn_comps[i] - 1]));
                     xFactor[conn_comps[i] - 1] += MARGIN_X + Node._nodeSize;
                     onCanvas[conn_comps[i] - 1]++;
-                    if (onCanvas[conn_comps[i] - 1] - 1 != 0 && Math.Pow(conn_comps_sum[conn_comps[i] - 1],2) % onCanvas[conn_comps[i] - 1] == 0)
+                    if (onCanvas[conn_comps[i] - 1] - 1 != 0 && onCanvas[conn_comps[i] - 1] % conn_comps_sum[conn_comps[i] - 1] == 0)
                     {
                         xFactor[conn_comps[i] - 1] = MARGIN_X;
                         yFactor[conn_comps[i] - 1] += MARGIN_Y + Node._nodeSize;
@@ -130,7 +130,7 @@ namespace GraphVirtualizationTool.Model
                 }
                 //adjust canvas
                 MainViewModel.getInstance().CanvasHeight = sumComp * Node._nodeSize + (sumComp + 1) * MARGIN_Y;
-                MainViewModel.getInstance().CanvasWidth = maxComp * Node._nodeSize + (sumComp + 1) * MARGIN_X;
+                MainViewModel.getInstance().CanvasWidth = maxComp * Node._nodeSize + (maxComp + 1) * MARGIN_X;
             }
             //general draw algorithm random
             else
@@ -184,7 +184,7 @@ namespace GraphVirtualizationTool.Model
                 for (int row = 0; row < rows; row++)
                 {
                     SolidColorBrush color;
-                    if (colorArr[row] == 0)
+                    if (colorArr[row] == 0 && graph.IsBipartite)
                         color = new SolidColorBrush(Colors.Blue);
                     else
                         color = new SolidColorBrush(Colors.Orange);
@@ -223,7 +223,7 @@ namespace GraphVirtualizationTool.Model
                 {
 
                     SolidColorBrush color;
-                    if (colorArr[row] == 0)
+                    if (colorArr[row] == 0 && graph.IsBipartite)
                         color = new SolidColorBrush(Colors.Blue);
                     else
                         color = new SolidColorBrush(Colors.Orange);

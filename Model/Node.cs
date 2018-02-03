@@ -73,6 +73,8 @@ namespace GraphVirtualizationTool
                 {
                     _nodeSize = value;
                     OnPropertyChanged("NodeSize");
+                    Y = Y;
+                    X = X;
                 }
             }
         }

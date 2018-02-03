@@ -59,6 +59,11 @@ namespace GraphVirtualizationTool.Model
                         throw new Exception("rows is bigger than columns");
                 }
                 reader.Close();
+                for(int i = 0; i < rows ; i++)
+                {
+                    if (matrix[i][i] == true)
+                        throw new Exception("Cannot open a directed graph");
+                }
                 return (List<List<T>>)Convert.ChangeType(matrix, typeof(List<List<T>>)) ;
             }
             catch (Exception ex)

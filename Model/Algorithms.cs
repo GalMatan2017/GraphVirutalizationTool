@@ -120,8 +120,6 @@ namespace GraphVirtualizationTool.Model
                         }
                     }
                 }
-                if (!isConnectedflag)
-                    break;
             }
             if (bipartiteflag == true)
                 return true;

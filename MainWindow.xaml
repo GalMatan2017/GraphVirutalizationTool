@@ -27,8 +27,8 @@
                                 <Ellipse Height="{Binding NodeSize}" Width="{Binding NodeSize}" Stroke="Black" StrokeThickness="1" Fill="{Binding NodeColor}"
                                              x:Name="Ellipse">
                                 </Ellipse>
-                                <TextBlock Canvas.Top="-30" Canvas.Left="-30" Width="100" 
-                                               TextAlignment="Center" Text="{Binding Name}" FontWeight="Bold"
+                                <TextBlock Canvas.Top="5" Canvas.Left="-10" Width="100" 
+                                               TextAlignment="Center" Text="{Binding Name}"
                                                Visibility="{Binding DataContext.ShowNames, 
                                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window},
                                                Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -59,7 +59,7 @@
 
             <!-- This is the DataTemplate that will be used to render the Connector class -->
             <DataTemplate DataType="{x:Type local:Edge}">
-                <Line Stroke="Blue" StrokeThickness="3"
+                <Line Stroke="Black" StrokeThickness="1"
                             X1="{Binding Start.CenterX}" Y1="{Binding Start.CenterY}"
                             X2="{Binding End.CenterX}" Y2="{Binding End.CenterY}" x:Name="Line"/>
                 <DataTemplate.Triggers>

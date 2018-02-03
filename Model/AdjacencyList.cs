@@ -49,6 +49,12 @@ namespace GraphVirtualizationTool.Model
                     }
                 }
                 reader.Close();
+                foreach (var _line in list)
+                {
+                    for (int i = 1; i < _line.Count; i++)
+                        if (_line[i] == _line[0])
+                            throw new Exception("Cannot open a directed graph");
+                }
                 return   (List<List<T>>)Convert.ChangeType(list, typeof(List<List<T>>));
             }
             catch (Exception ex)
