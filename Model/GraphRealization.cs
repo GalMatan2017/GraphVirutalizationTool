@@ -159,8 +159,8 @@ namespace GraphVisualisationTool.Model
 
                 for (int i = 0; i < comps; i++)
                 {
-                    xStart[i] = marginX;
-                    yStart[i] = marginY;
+                    xStart[i] = DEFAULT_CONSTANT;
+                    yStart[i] = DEFAULT_CONSTANT;
                     if (i > 0)
                         yStart[i] = yStart[i - 1] + vertex_size * conn_comps_sum[i - 1] + (vertex_size - 1) * conn_comps_sum[i - 1];
                     yEnd[i] = yStart[i] + vertex_size * conn_comps_sum[i] + marginY * (conn_comps_sum[i] - 1);
@@ -183,6 +183,7 @@ namespace GraphVisualisationTool.Model
             //Matrix case
             if (typeof(T) == typeof(bool))
             {
+                int count = 0;
                 for (int row = 0; row < rows; row++)
                 {
                     vertices.Add(
@@ -193,7 +194,6 @@ namespace GraphVisualisationTool.Model
                             Y = coordinates[row].Y
                         });
                 }
-                graph.EdgesAmount = 0;
                 for (int row = 0; row < graph.getData<T>().Count; row++)
                 {
                     for (int col = graph.getData<T>().Count - 1; col > row - 1; col--)
@@ -208,15 +208,17 @@ namespace GraphVisualisationTool.Model
                                 Start = vertices.Single(x => x.Name.Equals($"{row + 1}")),
                                 End = vertices.Single(x => x.Name.Equals($"{col + 1}"))
                             });
-                            graph.EdgesAmount++;
+                            count++;
                         }
                     }
                 }
+                graph.EdgesAmount = count;
             }
 
             //List case
             else
             {
+                int count = 0;
                 for (int row = 0; row < rows; row++)
                 {
                     vertices.Add(
@@ -227,7 +229,6 @@ namespace GraphVisualisationTool.Model
                             Y = coordinates[row].Y
                         });
                 }
-                graph.EdgesAmount = 0;
                 for (int row = 0; row < graph.getData<T>().Count; row++)
                 {
                     for (int col = 1; col < graph.getData<T>().ElementAt(row).Count; col++)
@@ -243,10 +244,11 @@ namespace GraphVisualisationTool.Model
                                 Start = vertices.Single(x => x.Name.Equals($"{graph.getData<T>().ElementAt(row).ElementAt(0)}")),
                                 End = vertices.Single(x => x.Name.Equals($"{graph.getData<T>().ElementAt(row).ElementAt(col)}"))
                             });
-                            graph.EdgesAmount++;
+                            count++;
                         }
                     }
                 }
+                graph.EdgesAmount = count;
             }
             //draw
             MainViewModel.getInstance().Vertices = new System.Collections.ObjectModel.ObservableCollection<Vertex>(vertices);
@@ -257,7 +259,7 @@ namespace GraphVisualisationTool.Model
                 if (graph.IsBipartite)
                 {
                     for (int i = 0; i < vertices.Count; i++)
-                        vertices[i].VertexColor = colorArr[i] == 0 ? new SolidColorBrush(Colors.Blue) : new SolidColorBrush(Colors.Orange);
+                        vertices[i].VertexColor = colorArr[i] == 0 ? new SolidColorBrush(Colors.LightCyan) : new SolidColorBrush(Colors.Orange);
                 }
                 else
                 {

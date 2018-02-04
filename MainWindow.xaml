@@ -9,6 +9,10 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <!-- This CompositeCollection basically Concatenates the Nodes and Connectors in a single one -->
@@ -88,9 +92,9 @@
         </Grid.Resources>
         
         <!-- Here comes the components -->
-        <local:GraphController VerticalAlignment="Center" Margin="10" Grid.Column="0"/>
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-        <ListBox x:Name="canvas_holder" Grid.Column="2" SelectedItem="{Binding SelectedObject}"
+        <local:GraphController Grid.Row="0" VerticalAlignment="Center" Margin="10" Grid.Column="0"/>
+        <GridSplitter Grid.Row="0" Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+        <ListBox Grid.Row="0" x:Name="canvas_holder" Grid.Column="2" SelectedItem="{Binding SelectedObject}"
                      PreviewMouseMove="ListBox_PreviewMouseMove"
                      PreviewMouseDown="ListBox_PreviewMouseDown">
             <ListBox.Template>
@@ -136,6 +140,8 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        <ProgressBar Grid.Row="1" Grid.ColumnSpan="3"/>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">My Text</TextBlock>
     </Grid>
 </Window>
 

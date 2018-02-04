@@ -42,19 +42,19 @@
             <CheckBox Grid.Row="5" Grid.Column="1" Name="isCon_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
             <TextBlock Grid.Row="6" Text="Is Bipartite: "/>
             <CheckBox Grid.Row="6" Grid.Column="1" Name="isBip_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
-            <Separator Grid.Row="7" Grid.ColumnSpan="2" Height="40" ></Separator>
+            <Separator Grid.Row="7" Grid.ColumnSpan="2" Height="20" ></Separator>
             <StackPanel Name="rb_controller" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="8" Orientation="Horizontal" IsEnabled="False" Visibility="Hidden">
                 <RadioButton Name="rb_squared" Margin="0,0,5,0" FontSize="10" Checked="rb_squared_Checked">Squared</RadioButton>
                 <RadioButton Name="rb_random" Margin="5,0,5,0" FontSize="10" Checked="rb_random_Checked">Random</RadioButton>
             </StackPanel>
             <CheckBox Grid.Row="9" x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Grid.ColumnSpan="2"
-         Unchecked = "HandleUnchecked"/>
+         Unchecked = "HandleUnchecked" Margin="0,0,0,5"/>
             <TextBlock Grid.Row="10" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Space X</TextBlock>
             <Slider   Grid.ColumnSpan="2" Grid.Row="11" Name="spaceX" Maximum="20" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
             <TextBlock Grid.Row="12" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Space Y</TextBlock>
             <Slider  Grid.ColumnSpan="2" Grid.Row="13" Name="spaceY" Maximum="20" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
             <TextBlock Grid.Row="14" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Zoom</TextBlock>
-            <Slider  Grid.ColumnSpan="2" Grid.Row="15" Name="zoom"  Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" ></Slider>
+            <Slider  Grid.ColumnSpan="2" Grid.Row="15" Name="zoom"  Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,5" ></Slider>
             <Button  Grid.ColumnSpan="2" Grid.Row="16" Content="Save" Width="50" Click="SaveGraph"></Button>
         </Grid>
         
