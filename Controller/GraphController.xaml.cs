@@ -157,9 +157,6 @@ namespace GraphVisualisationTool
                     #endregion
                 }
 
-                zoom.Value = 6;
-                spaceX.Value = 6;
-                spaceY.Value = 6;
                 zoom.ValueChanged += zoom_ValueChanged;
                 spaceX.ValueChanged += spaceX_ValueChanged;
                 spaceY.ValueChanged += spaceY_ValueChanged;
@@ -244,6 +241,18 @@ namespace GraphVisualisationTool
             }));
         }
 
+        private void draw() {
+
+            if (type == GraphTypes.Dense)
+            {
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value);
+            }
+            else
+            {
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value);
+            }
+
+        }
 
         private void HandleCheck(object sender, RoutedEventArgs e)
         {
@@ -259,47 +268,6 @@ namespace GraphVisualisationTool
         private void SaveGraph(object sender, RoutedEventArgs e)
         {
             FileGlobalVars.getInstance().ExportToPng(MainViewModel.getInstance().MainCanvas);
-        }
-
-        private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            foreach (var vertex in MainViewModel.getInstance().Vertices)
-            {
-                vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
-            }
-            if (type == GraphTypes.Dense)
-            {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6);
-            }
-            else
-            {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value /6);
-            }
-        }
-
-        private void rb_squared_Checked(object sender, RoutedEventArgs e)
-        {
-            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
-            if (type == GraphTypes.Dense) {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
-            else
-            {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
-        }
-
-        private void rb_random_Checked(object sender, RoutedEventArgs e)
-        {
-            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
-            if (type == GraphTypes.Dense)
-            {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
-            else
-            {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
         }
 
         private void setViewBI()
@@ -325,29 +293,34 @@ namespace GraphVisualisationTool
             rb_controller.Visibility = Visibility.Visible;
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;;
         }
+        private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            foreach (var vertex in MainViewModel.getInstance().Vertices)
+            {
+                vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
+            }
+            draw();
+        }
 
+        private void rb_squared_Checked(object sender, RoutedEventArgs e)
+        {
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
+            draw();
+        }
+
+        private void rb_random_Checked(object sender, RoutedEventArgs e)
+        {
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+            draw();
+        }
         private void spaceX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (type == GraphTypes.Dense)
-            {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize , GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6 , GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
-            else
-            {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
+            draw();
         }
 
         private void spaceY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (type == GraphTypes.Dense)
-            {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
-            else
-            {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
-            }
+            draw();
         }
     }
 }

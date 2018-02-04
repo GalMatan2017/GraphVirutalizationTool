@@ -78,8 +78,8 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * vertex_size : ones * vertex_size) + (marginY * (zeros > ones ? zeros + 1 : ones + 1));
-                MainViewModel.getInstance().CanvasWidth = 2 * vertex_size + (marginX) * 3;
+                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * vertex_size : ones * vertex_size) + (marginY * (zeros > ones ? zeros - 1 : ones - 1)) + 2*DEFAULT_CONSTANT;
+                MainViewModel.getInstance().CanvasWidth = 2*DEFAULT_CONSTANT + 2 * vertex_size + (marginX);
 
             }
             //general draw algorithm squared
@@ -111,7 +111,7 @@ namespace GraphVisualisationTool.Model
 
                 for (int i = 1; i < comps; i++)
                 {
-                    xFactor[i] = marginX;
+                    xFactor[i] = DEFAULT_CONSTANT;
                     yFactor[i] += yFactor[i - 1] + marginY * conn_comps_sum[i - 1] + vertex_size * conn_comps_sum[i - 1];
                 }
 
@@ -123,14 +123,14 @@ namespace GraphVisualisationTool.Model
                     onCanvas[conn_comps[i] - 1]++;
                     if (onCanvas[conn_comps[i] - 1] - 1 != 0 && onCanvas[conn_comps[i] - 1] % conn_comps_sum[conn_comps[i] - 1] == 0)
                     {
-                        xFactor[conn_comps[i] - 1] = marginX;
+                        xFactor[conn_comps[i] - 1] = DEFAULT_CONSTANT;
                         yFactor[conn_comps[i] - 1] += marginY + vertex_size;
                     }
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp + 1) * marginY;
-                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (maxComp + 1) * marginX;
+                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp - 1) * marginY + 2*DEFAULT_CONSTANT;
+                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (maxComp - 1) * marginX + 2 * DEFAULT_CONSTANT;
             }
             //general draw algorithm random
             else
@@ -175,8 +175,8 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp + 1) * marginY;
-                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (sumComp + 1) * marginX;
+                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp - 1) * marginY + 2 * DEFAULT_CONSTANT;
+                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (maxComp - 1) * marginX + 2 * DEFAULT_CONSTANT;
 
             }
 
