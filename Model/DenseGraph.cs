@@ -29,17 +29,45 @@ namespace GraphVisualisationTool.Model
             return neighbours;
         }
         public GraphTypes GraphType { get; set; } = GraphTypes.Dense;
-        private int _connComps { get; set; }
-        public int ConnectedComps
+        private int verticesAmount { get; set; }
+        public int VerticesAmount
         {
             get
             {
-                return _connComps;
+                return verticesAmount;
             }
             set
             {
                 if (value != 0)
-                    _connComps = value;
+                    verticesAmount = value;
+                OnPropertyChanged("VerticesAmount");
+            }
+        }
+        private int edgesAmount { get; set; }
+        public int EdgesAmount
+        {
+            get
+            {
+                return edgesAmount;
+            }
+            set
+            {
+                if (value != 0)
+                    edgesAmount = value;
+                OnPropertyChanged("EdgesAmount");
+            }
+        }
+        private int connComps { get; set; }
+        public int ConnectedComps
+        {
+            get
+            {
+                return connComps;
+            }
+            set
+            {
+                if (value != 0)
+                    connComps = value;
                 OnPropertyChanged("ConnectedComps");
             }
         }

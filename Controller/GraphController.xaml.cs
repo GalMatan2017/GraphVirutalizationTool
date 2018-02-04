@@ -21,10 +21,12 @@ namespace GraphVisualisationTool
 
         public GraphController()
         {
+
             InitializeComponent();
             DataContext = this;
             globals = FileGlobalVars.getInstance();
             fileName.DataContext = globals;
+
         }
 
         private async void onOpenGraphFileClickButton(object sender, System.Windows.RoutedEventArgs e)
@@ -59,13 +61,15 @@ namespace GraphVisualisationTool
                     try
                     {
                         await Task.Factory.StartNew(() => setMatrix(data));
-                        await Task.Factory.StartNew(() => new GraphRealization().draw<bool>(graph, color_array, connected_comps, 30, 0, 0));
+                        await Task.Factory.StartNew(() => new GraphRealization().draw<bool>(graph, color_array, connected_comps, 30, 30, 30));
                     }
                     catch(Exception ex)
                     {
                         MessageBox.Show(ex.Message);
                         return;
                     }
+
+                    #region synchronous
 
                     //graph.setData(data);
 
@@ -97,6 +101,8 @@ namespace GraphVisualisationTool
                     //}
                     //GraphRealization.draw<bool>(graph, color_array, connected_comps);
                     #endregion
+
+                    #endregion
                 }
 
                 else
@@ -107,7 +113,7 @@ namespace GraphVisualisationTool
                     try
                     {
                         await Task.Factory.StartNew(() => setList(data));
-                        await Task.Factory.StartNew(() => new GraphRealization().draw<int>(graph, color_array, connected_comps, 30, 0, 0));
+                        await Task.Factory.StartNew(() => new GraphRealization().draw<int>(graph, color_array, connected_comps, 30, 30, 30));
                     }
                     catch (Exception ex)
                     {
@@ -115,6 +121,8 @@ namespace GraphVisualisationTool
                         return;
                     }
 
+
+                    #region synchronous
                     //graph.setData(data);
 
                     //nodes_count = graph.getData<int>().Count;
@@ -145,15 +153,31 @@ namespace GraphVisualisationTool
                     //}
                     //new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
                     #endregion
+
+                    #endregion
                 }
 
+                zoom.Value = 6;
+                spaceX.Value = 6;
+                spaceY.Value = 6;
+                zoom.ValueChanged += zoom_ValueChanged;
+                spaceX.ValueChanged += spaceX_ValueChanged;
+                spaceY.ValueChanged += spaceY_ValueChanged;
+
                 connComps.DataContext = graph;
+                verticesAmount.DataContext = graph;
+                edgesAmount.DataContext = graph;
+
                 graph.ConnectedComps = 0;
                 for (int i = 0; i < nodes_count; i++)
                 {
                     if (connected_comps[i] > graph.ConnectedComps)
                         graph.ConnectedComps = connected_comps[i];
                 }
+                if (graph.ConnectedComps == 1)
+                    isCon_cb.IsChecked = true;
+                else
+                    isCon_cb.IsChecked = false;
             }
         }
 
@@ -168,6 +192,8 @@ namespace GraphVisualisationTool
 
             nodes_count = graph.getData<bool>().Count;
 
+            graph.VerticesAmount = nodes_count;
+
             //number of vertices to be "colored"
             color_array = new int[nodes_count];
             //number of vertices which each of vertex represented by the list index and the value is the component class number
@@ -177,26 +203,12 @@ namespace GraphVisualisationTool
             {
                 if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
                 {
-                    graph.IsBipartite = true;
-                    isBip_cb.IsChecked = true;
-                    rb_controller.IsEnabled = false;
-                    rb_random.IsChecked = false;
-                    rb_squared.IsChecked = false;
-                    rb_controller.Visibility = Visibility.Hidden;
+                    setViewBI();
                 }
                 else
                 {
-                    graph.IsBipartite = false;
-                    isBip_cb.IsChecked = false;
-                    rb_controller.IsEnabled = true;
-                    rb_random.Checked -= rb_random_Checked;
-                    rb_random.IsChecked = true;
-                    rb_random.Checked += rb_random_Checked;
-                    rb_squared.IsChecked = false;
-                    rb_controller.Visibility = Visibility.Visible;
-                    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                    setViewNotBi();
                 }
-
             }));
         }
 
@@ -211,6 +223,8 @@ namespace GraphVisualisationTool
 
             nodes_count = graph.getData<int>().Count;
 
+            graph.VerticesAmount = nodes_count;
+
             //number of vertices to be colored
             color_array = new int[nodes_count];
             //number of vertices which each of vertex represented by the list index and the value is the component class number
@@ -220,24 +234,11 @@ namespace GraphVisualisationTool
             {
                 if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
                 {
-                    graph.IsBipartite = true;
-                    isBip_cb.IsChecked = true;
-                    rb_controller.IsEnabled = false;
-                    rb_random.IsChecked = false;
-                    rb_squared.IsChecked = false;
-                    rb_controller.Visibility = Visibility.Hidden;
+                    setViewBI();
                 }
                 else
                 {
-                    graph.IsBipartite = false;
-                    isBip_cb.IsChecked = false;
-                    rb_controller.IsEnabled = true;
-                    rb_random.Checked -= rb_random_Checked;
-                    rb_random.IsChecked = true;
-                    rb_random.Checked += rb_random_Checked;
-                    rb_squared.IsChecked = false;
-                    rb_controller.Visibility = Visibility.Visible;
-                    GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+                    setViewNotBi();
                 }
 
             }));
@@ -264,10 +265,15 @@ namespace GraphVisualisationTool
         {
             foreach (var node in MainViewModel.getInstance().Nodes)
             {
-                GraphRealization.MARGIN_X = node.NodeSize;
-                GraphRealization.MARGIN_Y = GraphRealization.MARGIN_X;
-                node.NodeSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/5;
-
+                node.NodeSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
+            }
+            if (type == GraphTypes.Dense)
+            {
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6);
+            }
+            else
+            {
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value /6);
             }
         }
 
@@ -275,11 +281,11 @@ namespace GraphVisualisationTool
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
             if (type == GraphTypes.Dense) {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps,30,0,0);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
 
@@ -288,11 +294,59 @@ namespace GraphVisualisationTool
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps,30,0,0);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps,30,0,0);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+            }
+        }
+
+        private void setViewBI()
+        {
+            graph.IsBipartite = true;
+            isBip_cb.IsChecked = true;
+            rb_controller.IsEnabled = false;
+            rb_random.IsChecked = false;
+            rb_squared.IsChecked = false;
+            rb_controller.Visibility = Visibility.Hidden;
+
+        }
+
+        private void setViewNotBi()
+        {
+            graph.IsBipartite = false;
+            isBip_cb.IsChecked = false;
+            rb_controller.IsEnabled = true;
+            rb_random.Checked -= rb_random_Checked;
+            rb_random.IsChecked = true;
+            rb_random.Checked += rb_random_Checked;
+            rb_squared.IsChecked = false;
+            rb_controller.Visibility = Visibility.Visible;
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;;
+        }
+
+        private void spaceX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (type == GraphTypes.Dense)
+            {
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize , GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6 , GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+            }
+            else
+            {
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+            }
+        }
+
+        private void spaceY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (type == GraphTypes.Dense)
+            {
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+            }
+            else
+            {
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
     }

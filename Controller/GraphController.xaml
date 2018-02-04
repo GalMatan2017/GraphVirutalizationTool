@@ -21,24 +21,41 @@
                 <RowDefinition Height="Auto" ></RowDefinition>
                 <RowDefinition Height="Auto" ></RowDefinition>
                 <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
+                <RowDefinition Height="Auto" ></RowDefinition>
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource RoundCorner}" Click="onOpenGraphFileClickButton"  Height="50" Content="Open"></Button>
             <TextBlock Grid.Row="1" Text="Filename: "/>
             <TextBox Grid.Row="1" Grid.Column="1" Name="fileName" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding Filename}"></TextBox>
-            <TextBlock Grid.Row="2" Text="Components: "/>
-            <TextBox Grid.Row="2" Grid.Column="1" Name="connComps" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding ConnectedComps}"></TextBox>
-            <TextBlock Grid.Row="3" Text="Is Bipartite: "/>
-            <CheckBox Grid.Row="3" Grid.Column="1" Name="isBip_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
-            <Separator Grid.Row="4" Grid.ColumnSpan="2" Height="40" ></Separator>
-            <StackPanel Name="rb_controller" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="5" Orientation="Horizontal" IsEnabled="False" Visibility="Hidden">
+            <TextBlock Grid.Row="2" Text="Vertices: "/>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="verticesAmount" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding VerticesAmount}" Height="18" VerticalAlignment="Bottom"></TextBox>
+            <TextBlock Grid.Row="3" Text="Edges: "/>
+            <TextBox Grid.Row="3" Grid.Column="1" Name="edgesAmount" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding EdgesAmount}" Height="18" VerticalAlignment="Bottom"></TextBox>
+            <TextBlock Grid.Row="4" Text="Components: "/>
+            <TextBox Grid.Row="4" Grid.Column="1" Name="connComps" IsEnabled="False" TextWrapping="WrapWithOverflow" Text="{Binding ConnectedComps}"></TextBox>
+            <TextBlock Grid.Row="5" Text="Is Connected: "/>
+            <CheckBox Grid.Row="5" Grid.Column="1" Name="isCon_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
+            <TextBlock Grid.Row="6" Text="Is Bipartite: "/>
+            <CheckBox Grid.Row="6" Grid.Column="1" Name="isBip_cb" IsEnabled="False" HorizontalAlignment = "Center"></CheckBox>
+            <Separator Grid.Row="7" Grid.ColumnSpan="2" Height="40" ></Separator>
+            <StackPanel Name="rb_controller" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="8" Orientation="Horizontal" IsEnabled="False" Visibility="Hidden">
                 <RadioButton Name="rb_squared" Margin="0,0,5,0" FontSize="10" Checked="rb_squared_Checked">Squared</RadioButton>
                 <RadioButton Name="rb_random" Margin="5,0,5,0" FontSize="10" Checked="rb_random_Checked">Random</RadioButton>
             </StackPanel>
-            <CheckBox Grid.Row="6" x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Grid.ColumnSpan="2"
+            <CheckBox Grid.Row="9" x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Grid.ColumnSpan="2"
          Unchecked = "HandleUnchecked"/>
-            <TextBlock Grid.Row="7" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Zoom</TextBlock>
-            <Slider  Grid.ColumnSpan="2" Grid.Row="8" Name="zoom" Value="6" Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="zoom_ValueChanged"></Slider>
-            <Button  Grid.ColumnSpan="2" Grid.Row="9" Content="Save" Width="50" Click="SaveGraph"></Button>
+            <TextBlock Grid.Row="10" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Space X</TextBlock>
+            <Slider  Value="6" Grid.ColumnSpan="2" Grid.Row="11" Name="spaceX" Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBlock Grid.Row="12" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Space Y</TextBlock>
+            <Slider  Grid.ColumnSpan="2" Grid.Row="13" Name="spaceY" Value="6" Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBlock Grid.Row="14" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Zoom</TextBlock>
+            <Slider Value="6" Grid.ColumnSpan="2" Grid.Row="15" Name="zoom"  Maximum="11" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True" ></Slider>
+            <Button  Grid.ColumnSpan="2" Grid.Row="16" Content="Save" Width="50" Click="SaveGraph"></Button>
         </Grid>
         
     </ScrollViewer>

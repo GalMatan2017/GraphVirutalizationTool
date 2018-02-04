@@ -11,8 +11,6 @@ namespace GraphVisualisationTool.Model
     class GraphRealization
     {
         public static readonly int DEFAULT_CONSTANT = 30;
-        public static int MARGIN_X = DEFAULT_CONSTANT;
-        public static int MARGIN_Y = MARGIN_X;
         public enum GeneralDraw { Random, Squared };
         public static GeneralDraw GeneralDrawType { get; set; }
         public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int node_size, int marginX, int marginY)
@@ -62,26 +60,26 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //margin top
-                yFactor[0] = MARGIN_Y;
-                yFactor[1] = MARGIN_Y;
+                yFactor[0] = DEFAULT_CONSTANT;
+                yFactor[1] = DEFAULT_CONSTANT;
 
                 //place pair y factors foreach component's color
                 for (int i = 1; i < comps; i++)
                 {
-                    yFactor[i * 2] += yFactor[(i - 1) * 2] + (MARGIN_Y + node_size) * (comps_colors_zeros[i / 2] > comps_colors_ones[i / 2] ? comps_colors_zeros[i / 2] : comps_colors_ones[i / 2]);
+                    yFactor[i * 2] += yFactor[(i - 1) * 2] + (marginY + node_size) * (comps_colors_zeros[i / 2] > comps_colors_ones[i / 2] ? comps_colors_zeros[i / 2] : comps_colors_ones[i / 2]);
                     yFactor[i * 2 + 1] = yFactor[i * 2];
                 }
 
                 //assign coordinates and increase yfactor
                 for (int i = 0; i < total_nodes; i++)
                 {
-                    coordinates.Add(new Point(MARGIN_X * (colorArr[i] + 1) + (colorArr[i] * node_size), yFactor[2 * conn_comps[i] - colorArr[i] - 1]));
-                    yFactor[2 * conn_comps[i] - colorArr[i] - 1] += MARGIN_Y + node_size;
+                    coordinates.Add(new Point(marginX * (colorArr[i]) + DEFAULT_CONSTANT + (colorArr[i] * node_size), yFactor[2 * conn_comps[i] - colorArr[i] - 1]));
+                    yFactor[2 * conn_comps[i] - colorArr[i] - 1] += marginY + node_size;
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * node_size : ones * node_size) + (MARGIN_Y * (zeros > ones ? zeros + 1 : ones + 1));
-                MainViewModel.getInstance().CanvasWidth = 2 * node_size + (MARGIN_X) * 3;
+                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * node_size : ones * node_size) + (marginY * (zeros > ones ? zeros + 1 : ones + 1));
+                MainViewModel.getInstance().CanvasWidth = 2 * node_size + (marginX) * 3;
 
             }
             //general draw algorithm squared
@@ -108,31 +106,31 @@ namespace GraphVisualisationTool.Model
                         maxComp = conn_comps_sum[i];
                 }
 
-                xFactor[0] = MARGIN_X;
-                yFactor[0] = MARGIN_Y;
+                xFactor[0] = DEFAULT_CONSTANT;
+                yFactor[0] = DEFAULT_CONSTANT;
 
                 for (int i = 1; i < comps; i++)
                 {
-                    xFactor[i] = MARGIN_X;
-                    yFactor[i] += yFactor[i - 1] + MARGIN_Y * conn_comps_sum[i - 1] + node_size * conn_comps_sum[i - 1];
+                    xFactor[i] = marginX;
+                    yFactor[i] += yFactor[i - 1] + marginY * conn_comps_sum[i - 1] + node_size * conn_comps_sum[i - 1];
                 }
 
                 for (int i = 0; i < total_nodes; i++)
                 {
 
                     coordinates.Add(new Point(xFactor[conn_comps[i] - 1], yFactor[conn_comps[i] - 1]));
-                    xFactor[conn_comps[i] - 1] += MARGIN_X + node_size;
+                    xFactor[conn_comps[i] - 1] += marginX + node_size;
                     onCanvas[conn_comps[i] - 1]++;
                     if (onCanvas[conn_comps[i] - 1] - 1 != 0 && onCanvas[conn_comps[i] - 1] % conn_comps_sum[conn_comps[i] - 1] == 0)
                     {
-                        xFactor[conn_comps[i] - 1] = MARGIN_X;
-                        yFactor[conn_comps[i] - 1] += MARGIN_Y + node_size;
+                        xFactor[conn_comps[i] - 1] = marginX;
+                        yFactor[conn_comps[i] - 1] += marginY + node_size;
                     }
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * MARGIN_Y;
-                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (maxComp + 1) * MARGIN_X;
+                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * marginY;
+                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (maxComp + 1) * marginX;
             }
             //general draw algorithm random
             else
@@ -161,12 +159,12 @@ namespace GraphVisualisationTool.Model
 
                 for (int i = 0; i < comps; i++)
                 {
-                    xStart[i] = MARGIN_X;
-                    yStart[i] = MARGIN_Y;
+                    xStart[i] = marginX;
+                    yStart[i] = marginY;
                     if (i > 0)
                         yStart[i] = yStart[i - 1] + node_size * conn_comps_sum[i - 1] + (node_size - 1) * conn_comps_sum[i - 1];
-                    yEnd[i] = yStart[i] + node_size * conn_comps_sum[i] + MARGIN_Y * (conn_comps_sum[i] - 1);
-                    xEnd[i] = xStart[i] + node_size * conn_comps_sum[i] + MARGIN_X * (conn_comps_sum[i] - 1);
+                    yEnd[i] = yStart[i] + node_size * conn_comps_sum[i] + marginY * (conn_comps_sum[i] - 1);
+                    xEnd[i] = xStart[i] + node_size * conn_comps_sum[i] + marginX * (conn_comps_sum[i] - 1);
                 }
 
                 for (int i = 0; i < total_nodes; i++)
@@ -177,8 +175,8 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * MARGIN_Y;
-                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (sumComp + 1) * MARGIN_X;
+                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * marginY;
+                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (sumComp + 1) * marginX;
 
             }
 
@@ -195,7 +193,7 @@ namespace GraphVisualisationTool.Model
                             Y = coordinates[row].Y
                         });
                 }
-
+                graph.EdgesAmount = 0;
                 for (int row = 0; row < graph.getData<T>().Count; row++)
                 {
                     for (int col = graph.getData<T>().Count - 1; col > row - 1; col--)
@@ -210,6 +208,7 @@ namespace GraphVisualisationTool.Model
                                 Start = nodes.Single(x => x.Name.Equals($"node {row + 1}")),
                                 End = nodes.Single(x => x.Name.Equals($"node {col + 1}"))
                             });
+                            graph.EdgesAmount++;
                         }
                     }
                 }
@@ -228,6 +227,7 @@ namespace GraphVisualisationTool.Model
                             Y = coordinates[row].Y
                         });
                 }
+                graph.EdgesAmount = 0;
                 for (int row = 0; row < graph.getData<T>().Count; row++)
                 {
                     for (int col = 1; col < graph.getData<T>().ElementAt(row).Count; col++)
@@ -243,6 +243,7 @@ namespace GraphVisualisationTool.Model
                                 Start = nodes.Single(x => x.Name.Equals($"node {graph.getData<T>().ElementAt(row).ElementAt(0)}")),
                                 End = nodes.Single(x => x.Name.Equals($"node {graph.getData<T>().ElementAt(row).ElementAt(col)}"))
                             });
+                            graph.EdgesAmount++;
                         }
                     }
                 }
