@@ -1,4 +1,4 @@
-﻿namespace GraphVirtualizationTool.Model
+﻿namespace GraphVisualisationTool.Model
 {
     public enum GraphTypes { Dense, Sparse }
 }

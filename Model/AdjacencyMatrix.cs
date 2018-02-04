@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GraphVirtualizationTool.Model
+namespace GraphVisualisationTool.Model
 {
     class AdjacencyMatrix : FileHandlerInterface
     {
@@ -27,7 +27,7 @@ namespace GraphVirtualizationTool.Model
                 foreach (var integer in items)
                 {
                     int item;
-                    if (GraphGlobalVariables.getInstance().TryParseInt32(integer, out item) != -1 && (item == 0 || item == 1))
+                    if (FileGlobalVars.getInstance().TryParseInt32(integer, out item) != -1 && (item == 0 || item == 1))
                         convertedItems.Add(item == 0 ? false : true);
                 }
                 ++rows;

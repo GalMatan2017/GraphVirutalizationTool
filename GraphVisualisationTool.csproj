@@ -8,8 +8,8 @@
     <ProjectGuid>{E049DBCF-D965-4C89-A978-8229159DFA64}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphVirtualizationTool</RootNamespace>
-    <AssemblyName>GraphVirtualizationTool</AssemblyName>
+    <RootNamespace>GraphVisualisationTool</RootNamespace>
+    <AssemblyName>GraphVisualisationTool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -137,9 +137,9 @@
     <Compile Include="Controller\GraphController.xaml.cs">
       <DependentUpon>GraphController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\DiagramObject.cs" />
+    <Compile Include="Model\CanvasObject.cs" />
     <Compile Include="Model\Graph.cs" />
-    <Compile Include="Model\GraphGlobalVariables.cs" />
+    <Compile Include="Model\FileGlobalVars.cs" />
     <Compile Include="Model\GraphRealization.cs" />
     <Compile Include="Model\GraphTypes.cs" />
     <Compile Include="Model\SparseGraph.cs" />
@@ -150,7 +150,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

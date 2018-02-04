@@ -1,6 +1,6 @@
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
-    public class Edge: DiagramObject
+    public class Edge: CanvasObject
     {
         //The Connector's X and Y properties are always 0 because the line coordinates are actually determined
         //by the Start.X, Start.Y and End.X, End.Y Nodes' properties.
@@ -19,8 +19,8 @@ namespace GraphVirtualizationTool
             get { return 0; }
             set { }
         }
-        private Node _start;
-        public Node Start
+        private Vertex _start;
+        public Vertex Start
         {
             get { return _start; }
             set
@@ -33,8 +33,8 @@ namespace GraphVirtualizationTool
             }
         }
 
-        private Node _end;
-        public Node End
+        private Vertex _end;
+        public Vertex End
         {
             get { return _end; }
             set

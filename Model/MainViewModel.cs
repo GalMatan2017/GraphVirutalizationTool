@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
     public class MainViewModel: INotifyPropertyChanged
     {
@@ -25,10 +25,10 @@ namespace GraphVirtualizationTool
         #endregion
 
         #region Collections
-        private ObservableCollection<Node> _nodes;
-        public ObservableCollection<Node> Nodes
+        private ObservableCollection<Vertex> _nodes;
+        public ObservableCollection<Vertex> Nodes
         {
-            get { return _nodes ?? (_nodes = new ObservableCollection<Node>()); }
+            get { return _nodes ?? (_nodes = new ObservableCollection<Vertex>()); }
             set
             {
                 if (value != null)
@@ -53,8 +53,8 @@ namespace GraphVirtualizationTool
             }
         }
 
-        private DiagramObject _selectedObject;
-        public DiagramObject SelectedObject
+        private CanvasObject _selectedObject;
+        public CanvasObject SelectedObject
         {
             get
             {

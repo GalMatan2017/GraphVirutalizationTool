@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Controls;
-using GraphVirtualizationTool.Model;
 using System.Windows;
 using System.Threading.Tasks;
+using GraphVisualisationTool.Model;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
     public partial class GraphController : UserControl
     {
         Graph graph;
-        GraphGlobalVariables globals;
+        FileGlobalVars globals;
         Algorithms algorithms;
         GraphTypes type;
 
@@ -23,7 +23,7 @@ namespace GraphVirtualizationTool
         {
             InitializeComponent();
             DataContext = this;
-            globals = GraphGlobalVariables.getInstance();
+            globals = FileGlobalVars.getInstance();
             fileName.DataContext = globals;
         }
 
@@ -257,7 +257,7 @@ namespace GraphVirtualizationTool
         }
         private void SaveGraph(object sender, RoutedEventArgs e)
         {
-            GraphGlobalVariables.getInstance().ExportToPng(MainViewModel.getInstance().MainCanvas);
+            FileGlobalVars.getInstance().ExportToPng(MainViewModel.getInstance().MainCanvas);
         }
 
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

@@ -9,17 +9,17 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
-    public class GraphGlobalVariables : INotifyPropertyChanged
+    public class FileGlobalVars : INotifyPropertyChanged
     {
-        private GraphGlobalVariables() { }
-        private static GraphGlobalVariables instance = null;
-        public static GraphGlobalVariables getInstance()
+        private FileGlobalVars() { }
+        private static FileGlobalVars instance = null;
+        public static FileGlobalVars getInstance()
         {
             if (instance == null)
             {
-                instance = new GraphGlobalVariables();
+                instance = new FileGlobalVars();
             }
             return instance;
         }
@@ -66,7 +66,6 @@ namespace GraphVirtualizationTool
             {
                 return;
             }
-            // System.IO.Directory.CreateDirectory("C:/GraphVirtualizationSaves/");
             Uri path;
             path = new Uri($"{dir}/{filename}");
             // Get the size of canvas

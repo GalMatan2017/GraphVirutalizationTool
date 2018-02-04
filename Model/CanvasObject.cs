@@ -3,9 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
-    public abstract class DiagramObject : INotifyPropertyChanged
+    public abstract class CanvasObject : INotifyPropertyChanged
     {
         private string _name;
         public string Name

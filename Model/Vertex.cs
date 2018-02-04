@@ -1,77 +1,79 @@
 using System;
 using System.Windows.Media;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
-    public class Node : DiagramObject
+    public class Vertex : CanvasObject
     {
-
-        private double _x;
+        private double x;
         public override double X
         {
-            get { return _x; }
+            get { return x; }
             set
             {
                 if (value > MainViewModel.getInstance().CanvasWidth)
-                    _x = MainViewModel.getInstance().CanvasWidth;
+                    x = MainViewModel.getInstance().CanvasWidth;
                 else if (value < 0)
-                    _x = 0;
+                    x = 0;
                 else
-                    _x = value;
+                    x = value;
 
-                CenterX = _x + Node._nodeSize / 2;
+                CenterX = x + Vertex.nodeSize / 2;
                 OnPropertyChanged("X");
             }
         }
-        private double _y;       
+
+        private double y;       
         public override double Y
         {
-            get { return _y; }
+            get { return y; }
             set
             {
                 if (value > MainViewModel.getInstance().CanvasHeight)
-                    _y = MainViewModel.getInstance().CanvasHeight;
+                    y = MainViewModel.getInstance().CanvasHeight;
                 else if (value < 0)
-                    _y = 0;
+                    y = 0;
                 else
-                    _y = value;
-                CenterY = (int)_y + Node._nodeSize / 2;
+                    y = value;
+                CenterY = (int)y + Vertex.nodeSize / 2;
                 OnPropertyChanged("Y");
             }
         }
-        private double _z;
+
+        private double z;
         public override double Z
         {
-            get { return _z; }
+            get { return z; }
             set
             {
-                _z = value;
+                z = value;
                 OnPropertyChanged("Z");
             }
         }
-        private bool _isHighlighted { get; set; }
+
+        private bool isHighlighted;
         public bool IsHighlighted
         {
             get
             {
-                return _isHighlighted;
+                return isHighlighted;
             }
             set
             {
-                _isHighlighted = value;
+                isHighlighted = value;
                 OnPropertyChanged("IsHighlighted");
             }
         }
-        //Node ellipse resizing
-        public static int _nodeSize = 30;
+
+        public static int nodeSize = 30;
         public int NodeSize
         {
-            get { return _nodeSize; }
+            get { return nodeSize; }
             set
             {
                 if (value > 0)
                 {
-                    _nodeSize = value;
+                    nodeSize = value;
                     OnPropertyChanged("NodeSize");
                     Y = Y;
                     X = X;
@@ -80,8 +82,6 @@ namespace GraphVirtualizationTool
         }
 
         private double center_x;
-
-        private double center_y;
         public double CenterX {
             get { return center_x; }
             set
@@ -90,6 +90,8 @@ namespace GraphVirtualizationTool
                 OnPropertyChanged("CenterX");
             }
         }
+
+        private double center_y;
         public double CenterY
         {
             get { return center_y; }
@@ -100,13 +102,13 @@ namespace GraphVirtualizationTool
             }
         }
 
-        private Brush _nodeColor;
+        private Brush nodeColor;
         public Brush NodeColor
         {
-            get { return _nodeColor; }
+            get { return nodeColor; }
             set
             {
-                _nodeColor = value;
+                nodeColor = value;
                 OnPropertyChanged("color");
             }
         }

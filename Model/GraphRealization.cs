@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace GraphVirtualizationTool.Model
+namespace GraphVisualisationTool.Model
 {
     class GraphRealization
     {
@@ -18,7 +18,7 @@ namespace GraphVirtualizationTool.Model
         public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int node_size, int marginX, int marginY)
         {
 
-            List<Node> nodes = new List<Node>();
+            List<Vertex> nodes = new List<Vertex>();
             List<Edge> edges = new List<Edge>();
             Random random = new Random();
             int rows = graph.getData<T>().Count;
@@ -188,7 +188,7 @@ namespace GraphVirtualizationTool.Model
                 for (int row = 0; row < rows; row++)
                 {
                     nodes.Add(
-                        new Node()
+                        new Vertex()
                         {
                             Name = $"node {row + 1}",
                             X = coordinates[row].X,
@@ -221,7 +221,7 @@ namespace GraphVirtualizationTool.Model
                 for (int row = 0; row < rows; row++)
                 {
                     nodes.Add(
-                        new Node()
+                        new Vertex()
                         {
                             Name = $"node {graph.getData<T>().ElementAt(row).ElementAt(0)}",
                             X = coordinates[row].X,
@@ -248,7 +248,7 @@ namespace GraphVirtualizationTool.Model
                 }
             }
             //draw
-            MainViewModel.getInstance().Nodes = new System.Collections.ObjectModel.ObservableCollection<Node>(nodes);
+            MainViewModel.getInstance().Nodes = new System.Collections.ObjectModel.ObservableCollection<Vertex>(nodes);
             MainViewModel.getInstance().Edges = new System.Collections.ObjectModel.ObservableCollection<Edge>(edges);
 
             Application.Current.Dispatcher.Invoke(new Action(() => {

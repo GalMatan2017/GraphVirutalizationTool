@@ -2,8 +2,9 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls;
 using System.Windows.Input;
+using GraphVisualisationTool.Model;
 
-namespace GraphVirtualizationTool
+namespace GraphVisualisationTool
 {
     public partial class MainWindow : Window
     {
@@ -19,7 +20,7 @@ namespace GraphVirtualizationTool
             var thumb = sender as Thumb;
             if (thumb == null)
                 return;
-            var node = thumb.DataContext as Node;
+            var node = thumb.DataContext as Vertex;
             if (node == null)
                 return;
             node.X += e.HorizontalChange;
@@ -34,7 +35,7 @@ namespace GraphVirtualizationTool
             var vm = listbox.DataContext as MainViewModel;
             if (vm == null)
                 return;
-            if (vm.SelectedObject != null && vm.SelectedObject is Node && vm.SelectedObject.IsNew)
+            if (vm.SelectedObject != null && vm.SelectedObject is Vertex && vm.SelectedObject.IsNew)
             {
                 vm.SelectedObject.X = e.GetPosition(listbox).X;
                 vm.SelectedObject.Y = e.GetPosition(listbox).Y;
@@ -68,12 +69,12 @@ namespace GraphVirtualizationTool
                     vm.SelectedObject.IsNew = false;
             }
         }
-        private Node GetNodeUnderMouse()
+        private Vertex GetNodeUnderMouse()
         {
             var item = Mouse.DirectlyOver as ContentPresenter;
             if (item == null)
                 return null;
-            return item.DataContext as Node;
+            return item.DataContext as Vertex;
         }
 
         private void Canvas_Loaded(object sender, RoutedEventArgs e)
