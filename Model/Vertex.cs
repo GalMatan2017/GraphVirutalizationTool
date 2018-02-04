@@ -18,7 +18,7 @@ namespace GraphVisualisationTool
                 else
                     x = value;
 
-                CenterX = x + Vertex.nodeSize / 2;
+                CenterX = x + Vertex.vertexSize / 2;
                 OnPropertyChanged("X");
             }
         }
@@ -35,7 +35,7 @@ namespace GraphVisualisationTool
                     y = 0;
                 else
                     y = value;
-                CenterY = (int)y + Vertex.nodeSize / 2;
+                CenterY = (int)y + Vertex.vertexSize / 2;
                 OnPropertyChanged("Y");
             }
         }
@@ -65,16 +65,16 @@ namespace GraphVisualisationTool
             }
         }
 
-        public static int nodeSize = 30;
-        public int NodeSize
+        public static int vertexSize = 30;
+        public int VertexSize
         {
-            get { return nodeSize; }
+            get { return vertexSize; }
             set
             {
                 if (value > 0)
                 {
-                    nodeSize = value;
-                    OnPropertyChanged("NodeSize");
+                    vertexSize = value;
+                    OnPropertyChanged("VertexSize");
                     Y = Y;
                     X = X;
                 }
@@ -102,14 +102,14 @@ namespace GraphVisualisationTool
             }
         }
 
-        private Brush nodeColor;
-        public Brush NodeColor
+        private Brush vertexColor;
+        public Brush VertexColor
         {
-            get { return nodeColor; }
+            get { return vertexColor; }
             set
             {
-                nodeColor = value;
-                OnPropertyChanged("color");
+                vertexColor = value;
+                OnPropertyChanged("VertexColor");
             }
         }
     }

@@ -25,45 +25,45 @@ namespace GraphVisualisationTool
         #endregion
 
         #region Collections
-        private ObservableCollection<Vertex> _nodes;
-        public ObservableCollection<Vertex> Nodes
+        private ObservableCollection<Vertex> vertices;
+        public ObservableCollection<Vertex> Vertices
         {
-            get { return _nodes ?? (_nodes = new ObservableCollection<Vertex>()); }
+            get { return vertices ?? (vertices = new ObservableCollection<Vertex>()); }
             set
             {
                 if (value != null)
                 {
-                    _nodes = value;
-                    OnPropertyChanged("Nodes");
+                    vertices = value;
+                    OnPropertyChanged("Vertices");
                 }
             }
         }
 
-        private ObservableCollection<Edge> _edges;
+        private ObservableCollection<Edge> edges;
         public ObservableCollection<Edge> Edges
         {
-            get { return _edges ?? (_edges = new ObservableCollection<Edge>()); }
+            get { return edges ?? (edges = new ObservableCollection<Edge>()); }
             set
             {
                 if (value != null)
                 {
-                    _edges = value;
+                    edges = value;
                     OnPropertyChanged("Edges");
                 }
             }
         }
 
-        private CanvasObject _selectedObject;
+        private CanvasObject selectedObject;
         public CanvasObject SelectedObject
         {
             get
             {
-                return _selectedObject;
+                return selectedObject;
             }
             set
             {
-                Nodes.ToList().ForEach(x => x.IsHighlighted = false);
-                _selectedObject = value;
+                Vertices.ToList().ForEach(x => x.IsHighlighted = false);
+                selectedObject = value;
                 OnPropertyChanged("SelectedObject");
                 //DeleteCommand.IsEnabled = value != null;
                 var connector = value as Edge;

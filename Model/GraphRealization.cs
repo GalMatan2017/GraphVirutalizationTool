@@ -13,16 +13,16 @@ namespace GraphVisualisationTool.Model
         public static readonly int DEFAULT_CONSTANT = 30;
         public enum GeneralDraw { Random, Squared };
         public static GeneralDraw GeneralDrawType { get; set; }
-        public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int node_size, int marginX, int marginY)
+        public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int vertex_size, int marginX, int marginY)
         {
 
-            List<Vertex> nodes = new List<Vertex>();
+            List<Vertex> vertices = new List<Vertex>();
             List<Edge> edges = new List<Edge>();
             Random random = new Random();
             int rows = graph.getData<T>().Count;
 
             int comps = 0;
-            int total_nodes = graph.getData<T>().Count;
+            int total_vertices = graph.getData<T>().Count;
 
             List<Point> coordinates = new List<Point>();
 
@@ -45,7 +45,7 @@ namespace GraphVisualisationTool.Model
                 //count total of each color
                 int ones = 0, zeros = 0;
 
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                 {
                     if (colorArr[i] == 0)
                     {
@@ -66,20 +66,20 @@ namespace GraphVisualisationTool.Model
                 //place pair y factors foreach component's color
                 for (int i = 1; i < comps; i++)
                 {
-                    yFactor[i * 2] += yFactor[(i - 1) * 2] + (marginY + node_size) * (comps_colors_zeros[i / 2] > comps_colors_ones[i / 2] ? comps_colors_zeros[i / 2] : comps_colors_ones[i / 2]);
+                    yFactor[i * 2] += yFactor[(i - 1) * 2] + (marginY + vertex_size) * (comps_colors_zeros[i / 2] > comps_colors_ones[i / 2] ? comps_colors_zeros[i / 2] : comps_colors_ones[i / 2]);
                     yFactor[i * 2 + 1] = yFactor[i * 2];
                 }
 
                 //assign coordinates and increase yfactor
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                 {
-                    coordinates.Add(new Point(marginX * (colorArr[i]) + DEFAULT_CONSTANT + (colorArr[i] * node_size), yFactor[2 * conn_comps[i] - colorArr[i] - 1]));
-                    yFactor[2 * conn_comps[i] - colorArr[i] - 1] += marginY + node_size;
+                    coordinates.Add(new Point(marginX * (colorArr[i]) + DEFAULT_CONSTANT + (colorArr[i] * vertex_size), yFactor[2 * conn_comps[i] - colorArr[i] - 1]));
+                    yFactor[2 * conn_comps[i] - colorArr[i] - 1] += marginY + vertex_size;
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * node_size : ones * node_size) + (marginY * (zeros > ones ? zeros + 1 : ones + 1));
-                MainViewModel.getInstance().CanvasWidth = 2 * node_size + (marginX) * 3;
+                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * vertex_size : ones * vertex_size) + (marginY * (zeros > ones ? zeros + 1 : ones + 1));
+                MainViewModel.getInstance().CanvasWidth = 2 * vertex_size + (marginX) * 3;
 
             }
             //general draw algorithm squared
@@ -93,7 +93,7 @@ namespace GraphVisualisationTool.Model
 
                 int[] conn_comps_sum = new int[comps];
 
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                     ++conn_comps_sum[conn_comps[i] - 1];
 
                 for (int i = 0; i < comps; i++)
@@ -112,25 +112,25 @@ namespace GraphVisualisationTool.Model
                 for (int i = 1; i < comps; i++)
                 {
                     xFactor[i] = marginX;
-                    yFactor[i] += yFactor[i - 1] + marginY * conn_comps_sum[i - 1] + node_size * conn_comps_sum[i - 1];
+                    yFactor[i] += yFactor[i - 1] + marginY * conn_comps_sum[i - 1] + vertex_size * conn_comps_sum[i - 1];
                 }
 
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                 {
 
                     coordinates.Add(new Point(xFactor[conn_comps[i] - 1], yFactor[conn_comps[i] - 1]));
-                    xFactor[conn_comps[i] - 1] += marginX + node_size;
+                    xFactor[conn_comps[i] - 1] += marginX + vertex_size;
                     onCanvas[conn_comps[i] - 1]++;
                     if (onCanvas[conn_comps[i] - 1] - 1 != 0 && onCanvas[conn_comps[i] - 1] % conn_comps_sum[conn_comps[i] - 1] == 0)
                     {
                         xFactor[conn_comps[i] - 1] = marginX;
-                        yFactor[conn_comps[i] - 1] += marginY + node_size;
+                        yFactor[conn_comps[i] - 1] += marginY + vertex_size;
                     }
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * marginY;
-                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (maxComp + 1) * marginX;
+                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp + 1) * marginY;
+                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (maxComp + 1) * marginX;
             }
             //general draw algorithm random
             else
@@ -144,7 +144,7 @@ namespace GraphVisualisationTool.Model
 
                 int[] conn_comps_sum = new int[comps];
 
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                     ++conn_comps_sum[conn_comps[i] - 1];
 
                 for (int i = 0; i < comps; i++)
@@ -162,12 +162,12 @@ namespace GraphVisualisationTool.Model
                     xStart[i] = marginX;
                     yStart[i] = marginY;
                     if (i > 0)
-                        yStart[i] = yStart[i - 1] + node_size * conn_comps_sum[i - 1] + (node_size - 1) * conn_comps_sum[i - 1];
-                    yEnd[i] = yStart[i] + node_size * conn_comps_sum[i] + marginY * (conn_comps_sum[i] - 1);
-                    xEnd[i] = xStart[i] + node_size * conn_comps_sum[i] + marginX * (conn_comps_sum[i] - 1);
+                        yStart[i] = yStart[i - 1] + vertex_size * conn_comps_sum[i - 1] + (vertex_size - 1) * conn_comps_sum[i - 1];
+                    yEnd[i] = yStart[i] + vertex_size * conn_comps_sum[i] + marginY * (conn_comps_sum[i] - 1);
+                    xEnd[i] = xStart[i] + vertex_size * conn_comps_sum[i] + marginX * (conn_comps_sum[i] - 1);
                 }
 
-                for (int i = 0; i < total_nodes; i++)
+                for (int i = 0; i < total_vertices; i++)
                 {
                     int r1 = new Random(Guid.NewGuid().GetHashCode()).Next(xStart[conn_comps[i] - 1], xEnd[conn_comps[i] - 1]);
                     int r2 = new Random(Guid.NewGuid().GetHashCode()).Next(yStart[conn_comps[i] - 1], yEnd[conn_comps[i] - 1]);
@@ -175,8 +175,8 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * node_size + (sumComp + 1) * marginY;
-                MainViewModel.getInstance().CanvasWidth = maxComp * node_size + (sumComp + 1) * marginX;
+                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp + 1) * marginY;
+                MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (sumComp + 1) * marginX;
 
             }
 
@@ -185,10 +185,10 @@ namespace GraphVisualisationTool.Model
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    nodes.Add(
+                    vertices.Add(
                         new Vertex()
                         {
-                            Name = $"node {row + 1}",
+                            Name = $"{row + 1}",
                             X = coordinates[row].X,
                             Y = coordinates[row].Y
                         });
@@ -205,8 +205,8 @@ namespace GraphVisualisationTool.Model
                             edges.Add(new Edge()
                             {
                                 Name = $"connector {new Random().Next(999)}",
-                                Start = nodes.Single(x => x.Name.Equals($"node {row + 1}")),
-                                End = nodes.Single(x => x.Name.Equals($"node {col + 1}"))
+                                Start = vertices.Single(x => x.Name.Equals($"{row + 1}")),
+                                End = vertices.Single(x => x.Name.Equals($"{col + 1}"))
                             });
                             graph.EdgesAmount++;
                         }
@@ -219,10 +219,10 @@ namespace GraphVisualisationTool.Model
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    nodes.Add(
+                    vertices.Add(
                         new Vertex()
                         {
-                            Name = $"node {graph.getData<T>().ElementAt(row).ElementAt(0)}",
+                            Name = $"{graph.getData<T>().ElementAt(row).ElementAt(0)}",
                             X = coordinates[row].X,
                             Y = coordinates[row].Y
                         });
@@ -232,16 +232,16 @@ namespace GraphVisualisationTool.Model
                 {
                     for (int col = 1; col < graph.getData<T>().ElementAt(row).Count; col++)
                     {
-                        if (edges.Find(x => x.Start.Name.Equals($"node {graph.getData<T>().ElementAt(row).ElementAt(col)}")
-                                            && x.End.Name.Equals(($"node {graph.getData<T>().ElementAt(row).ElementAt(0)}"))) != null)
+                        if (edges.Find(x => x.Start.Name.Equals($"{graph.getData<T>().ElementAt(row).ElementAt(col)}")
+                                            && x.End.Name.Equals(($"{graph.getData<T>().ElementAt(row).ElementAt(0)}"))) != null)
                             continue;
                         else
                         {
                             edges.Add(new Edge()
                             {
                                 Name = $"edge {new Random().Next(999)}",
-                                Start = nodes.Single(x => x.Name.Equals($"node {graph.getData<T>().ElementAt(row).ElementAt(0)}")),
-                                End = nodes.Single(x => x.Name.Equals($"node {graph.getData<T>().ElementAt(row).ElementAt(col)}"))
+                                Start = vertices.Single(x => x.Name.Equals($"{graph.getData<T>().ElementAt(row).ElementAt(0)}")),
+                                End = vertices.Single(x => x.Name.Equals($"{graph.getData<T>().ElementAt(row).ElementAt(col)}"))
                             });
                             graph.EdgesAmount++;
                         }
@@ -249,20 +249,20 @@ namespace GraphVisualisationTool.Model
                 }
             }
             //draw
-            MainViewModel.getInstance().Nodes = new System.Collections.ObjectModel.ObservableCollection<Vertex>(nodes);
+            MainViewModel.getInstance().Vertices = new System.Collections.ObjectModel.ObservableCollection<Vertex>(vertices);
             MainViewModel.getInstance().Edges = new System.Collections.ObjectModel.ObservableCollection<Edge>(edges);
 
             Application.Current.Dispatcher.Invoke(new Action(() => {
 
                 if (graph.IsBipartite)
                 {
-                    for (int i = 0; i < nodes.Count; i++)
-                        nodes[i].NodeColor = colorArr[i] == 0 ? new SolidColorBrush(Colors.Blue) : new SolidColorBrush(Colors.Orange);
+                    for (int i = 0; i < vertices.Count; i++)
+                        vertices[i].VertexColor = colorArr[i] == 0 ? new SolidColorBrush(Colors.Blue) : new SolidColorBrush(Colors.Orange);
                 }
                 else
                 {
-                    for (int i = 0; i < nodes.Count; i++)
-                        nodes[i].NodeColor = new SolidColorBrush(Colors.Orange);
+                    for (int i = 0; i < vertices.Count; i++)
+                        vertices[i].VertexColor = new SolidColorBrush(Colors.Orange);
                 }
 
             }));

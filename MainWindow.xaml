@@ -14,7 +14,7 @@
             <!-- This CompositeCollection basically Concatenates the Nodes and Connectors in a single one -->
             <CompositeCollection x:Key="Col">
                 <CollectionContainer Collection="{Binding DataContext.Edges,Source={x:Reference view}}"/>
-                <CollectionContainer Collection="{Binding DataContext.Nodes,Source={x:Reference view}}"/>
+                <CollectionContainer Collection="{Binding DataContext.Vertices,Source={x:Reference view}}"/>
             </CompositeCollection>
 
             <!-- This is the DataTemplate that will be used to render the Node class -->
@@ -24,14 +24,17 @@
                     <Thumb.Template>
                         <ControlTemplate TargetType="Thumb">
                             <Canvas>
-                                <Ellipse Height="{Binding NodeSize}" Width="{Binding NodeSize}" Stroke="Black" StrokeThickness="1" Fill="{Binding NodeColor}"
+                                <Ellipse Height="{Binding VertexSize}" Width="{Binding VertexSize}" Stroke="Black" StrokeThickness="1" Fill="{Binding VertexColor}"
                                              x:Name="Ellipse">
                                 </Ellipse>
-                                <TextBlock Canvas.Top="5" Canvas.Left="-10" Width="100" 
-                                               TextAlignment="Center" Text="{Binding Name}"
+                                <Border  Height="{Binding VertexSize}">
+                                    <TextBlock TextAlignment="Center" VerticalAlignment="Center"  Width="{Binding VertexSize}" 
+                                                Text="{Binding Name}"
                                                Visibility="{Binding DataContext.ShowNames, 
                                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window},
                                                Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                </Border>
+                                
                             </Canvas>
                             <ControlTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">

@@ -15,7 +15,7 @@ namespace GraphVisualisationTool
         Algorithms algorithms;
         GraphTypes type;
 
-        int nodes_count;
+        int vertices_count;
         int[] color_array;
         int[] connected_comps;
 
@@ -169,7 +169,7 @@ namespace GraphVisualisationTool
                 edgesAmount.DataContext = graph;
 
                 graph.ConnectedComps = 0;
-                for (int i = 0; i < nodes_count; i++)
+                for (int i = 0; i < vertices_count; i++)
                 {
                     if (connected_comps[i] > graph.ConnectedComps)
                         graph.ConnectedComps = connected_comps[i];
@@ -190,18 +190,18 @@ namespace GraphVisualisationTool
 
             graph.setData(data);
 
-            nodes_count = graph.getData<bool>().Count;
+            vertices_count = graph.getData<bool>().Count;
 
-            graph.VerticesAmount = nodes_count;
+            graph.VerticesAmount = vertices_count;
 
             //number of vertices to be "colored"
-            color_array = new int[nodes_count];
+            color_array = new int[vertices_count];
             //number of vertices which each of vertex represented by the list index and the value is the component class number
-            connected_comps = new int[nodes_count];
+            connected_comps = new int[vertices_count];
 
             Dispatcher.Invoke(new Action(() =>
             {
-                if (algorithms.isBipartite<bool>(graph, nodes_count, color_array, GraphTypes.Dense, connected_comps))
+                if (algorithms.isBipartite<bool>(graph, vertices_count, color_array, GraphTypes.Dense, connected_comps))
                 {
                     setViewBI();
                 }
@@ -221,18 +221,18 @@ namespace GraphVisualisationTool
 
             graph.setData(data);
 
-            nodes_count = graph.getData<int>().Count;
+            vertices_count = graph.getData<int>().Count;
 
-            graph.VerticesAmount = nodes_count;
+            graph.VerticesAmount = vertices_count;
 
             //number of vertices to be colored
-            color_array = new int[nodes_count];
+            color_array = new int[vertices_count];
             //number of vertices which each of vertex represented by the list index and the value is the component class number
-            connected_comps = new int[nodes_count];
+            connected_comps = new int[vertices_count];
 
             Dispatcher.Invoke(new Action(() =>
             {
-                if (algorithms.isBipartite<int>(graph, nodes_count, color_array, GraphTypes.Sparse, connected_comps))
+                if (algorithms.isBipartite<int>(graph, vertices_count, color_array, GraphTypes.Sparse, connected_comps))
                 {
                     setViewBI();
                 }
@@ -263,17 +263,17 @@ namespace GraphVisualisationTool
 
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            foreach (var node in MainViewModel.getInstance().Nodes)
+            foreach (var vertex in MainViewModel.getInstance().Vertices)
             {
-                node.NodeSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
+                vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
             }
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value /6);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value /6);
             }
         }
 
@@ -281,11 +281,11 @@ namespace GraphVisualisationTool
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
             if (type == GraphTypes.Dense) {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
 
@@ -294,11 +294,11 @@ namespace GraphVisualisationTool
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
 
@@ -330,11 +330,11 @@ namespace GraphVisualisationTool
         {
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize , GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6 , GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize , GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6 , GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
 
@@ -342,11 +342,11 @@ namespace GraphVisualisationTool
         {
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.nodeSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value / 6, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value / 6);
             }
         }
     }
