@@ -157,6 +157,8 @@ namespace GraphVisualisationTool
                     #endregion
                 }
 
+                zoom.Value = 6;
+
                 zoom.ValueChanged += zoom_ValueChanged;
                 spaceX.ValueChanged += spaceX_ValueChanged;
                 spaceY.ValueChanged += spaceY_ValueChanged;
@@ -241,17 +243,26 @@ namespace GraphVisualisationTool
             }));
         }
 
-        private void draw() {
+        private async Task redrawAsync() {
+            int vertexSize = Vertex.vertexSize;
+            int space_Y = (int)spaceY.Value;
+            int space_X = (int)spaceX.Value;
 
+            await Task.Factory.StartNew(() =>
+            redraw(Vertex.vertexSize, space_X, space_Y)
+            );
+
+        }
+        private void redraw(int DEFAULT_SIZE,int space_X, int space_Y)
+        {
             if (type == GraphTypes.Dense)
             {
-                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value);
+                new GraphRealization().draw<bool>(graph, color_array, connected_comps, Vertex.vertexSize, DEFAULT_SIZE * space_X, DEFAULT_SIZE * space_Y);
             }
             else
             {
-                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, GraphRealization.DEFAULT_CONSTANT * (int)spaceX.Value, GraphRealization.DEFAULT_CONSTANT * (int)spaceY.Value);
+                new GraphRealization().draw<int>(graph, color_array, connected_comps, Vertex.vertexSize, DEFAULT_SIZE * space_X, DEFAULT_SIZE * space_Y);
             }
-
         }
 
         private void HandleCheck(object sender, RoutedEventArgs e)
@@ -293,34 +304,34 @@ namespace GraphVisualisationTool
             rb_controller.Visibility = Visibility.Visible;
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;;
         }
-        private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             foreach (var vertex in MainViewModel.getInstance().Vertices)
             {
                 vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
             }
-            draw();
+            await redrawAsync();
         }
 
-        private void rb_squared_Checked(object sender, RoutedEventArgs e)
+        private async void rb_squared_Checked(object sender, RoutedEventArgs e)
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Squared;
-            draw();
+            await redrawAsync();
         }
 
-        private void rb_random_Checked(object sender, RoutedEventArgs e)
+        private async void rb_random_Checked(object sender, RoutedEventArgs e)
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
-            draw();
+            await redrawAsync();
         }
-        private void spaceX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void spaceX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            draw();
+            await redrawAsync();
         }
 
-        private void spaceY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void spaceY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            draw();
+            await redrawAsync();
         }
     }
 }
