@@ -288,6 +288,7 @@ namespace GraphVisualisationTool
             rb_controller.IsEnabled = false;
             rb_random.IsChecked = false;
             rb_squared.IsChecked = false;
+            rb_circular.IsChecked = false;
             rb_controller.Visibility = Visibility.Hidden;
 
         }
@@ -301,6 +302,7 @@ namespace GraphVisualisationTool
             rb_random.IsChecked = true;
             rb_random.Checked += rb_random_Checked;
             rb_squared.IsChecked = false;
+            rb_circular.IsChecked = false;
             rb_controller.Visibility = Visibility.Visible;
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;;
         }
@@ -322,6 +324,11 @@ namespace GraphVisualisationTool
         private async void rb_random_Checked(object sender, RoutedEventArgs e)
         {
             GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Random;
+            await redrawAsync();
+        }
+        private async void rb_circular_Checked(object sender, RoutedEventArgs e)
+        {
+            GraphRealization.GeneralDrawType = GraphRealization.GeneralDraw.Circular;
             await redrawAsync();
         }
         private async void spaceX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

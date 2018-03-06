@@ -46,6 +46,7 @@
             <StackPanel Name="rb_controller" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="8" Orientation="Horizontal" IsEnabled="False" Visibility="Hidden">
                 <RadioButton Name="rb_squared" Margin="0,0,5,0" FontSize="10" Checked="rb_squared_Checked">Squared</RadioButton>
                 <RadioButton Name="rb_random" Margin="5,0,5,0" FontSize="10" Checked="rb_random_Checked">Random</RadioButton>
+                <RadioButton Name="rb_circular" Margin="5,0,5,0" FontSize="10" Checked="rb_circular_Checked">Circular</RadioButton>
             </StackPanel>
             <CheckBox Grid.Row="9" x:Name = "showNamesBox" Content = "Show names" HorizontalAlignment = "Center" Checked = "HandleCheck" IsChecked="True" Grid.ColumnSpan="2"
          Unchecked = "HandleUnchecked" Margin="0,0,0,5"/>

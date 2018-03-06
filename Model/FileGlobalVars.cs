@@ -82,8 +82,8 @@ namespace GraphVisualisationTool
               new RenderTargetBitmap(
                 (int)size.Width,
                 (int)size.Height,
-                96d,
-                96d,
+                96,
+                96,
                 PixelFormats.Pbgra32);
             renderBitmap.Render(printCanvas);
 

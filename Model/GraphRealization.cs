@@ -11,7 +11,7 @@ namespace GraphVisualisationTool.Model
     class GraphRealization
     {
         public static readonly int DEFAULT_CONSTANT = 30;
-        public enum GeneralDraw { Random, Squared };
+        public enum GeneralDraw { Random, Squared, Circular };
         public static GeneralDraw GeneralDrawType { get; set; }
         public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int vertex_size, int marginX, int marginY)
         {
@@ -78,8 +78,8 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * vertex_size : ones * vertex_size) + (marginY * (zeros > ones ? zeros - 1 : ones - 1)) + 2*DEFAULT_CONSTANT;
-                MainViewModel.getInstance().CanvasWidth = 2*DEFAULT_CONSTANT + 2 * vertex_size + (marginX);
+                MainViewModel.getInstance().CanvasHeight = (zeros > ones ? zeros * vertex_size : ones * vertex_size) + (marginY * (zeros > ones ? zeros - 1 : ones - 1)) + 2 * DEFAULT_CONSTANT;
+                MainViewModel.getInstance().CanvasWidth = 2 * DEFAULT_CONSTANT + 2 * vertex_size + (marginX);
 
             }
             //general draw algorithm squared
@@ -129,8 +129,60 @@ namespace GraphVisualisationTool.Model
                 }
 
                 //adjust canvas
-                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp - 1) * marginY + 2*DEFAULT_CONSTANT;
+                MainViewModel.getInstance().CanvasHeight = sumComp * vertex_size + (sumComp - 1) * marginY + 2 * DEFAULT_CONSTANT;
                 MainViewModel.getInstance().CanvasWidth = maxComp * vertex_size + (maxComp - 1) * marginX + 2 * DEFAULT_CONSTANT;
+            }
+            else if (GeneralDrawType == GeneralDraw.Circular)
+            {
+                int[] sumComps = new int[comps];
+                int[] countComps = new int[comps];
+                int[] xFactor = new int[comps];
+                int[] yFactor = new int[comps];
+
+                //summarize vertices by its component
+                for (int i = 0; i < total_vertices; i++)
+                    ++sumComps[conn_comps[i] - 1];
+
+                //init first drawing
+                yFactor[0] = sumComps[conn_comps[0] - 1] * vertex_size;
+                xFactor[0] = marginX / 4 * sumComps[conn_comps[0] - 1];
+
+                //iterating except first drawing
+                for (int i = 0; i < comps; i++)
+                {
+                    countComps[i] = 1;
+                    if (i != 0)
+                    {
+                        xFactor[i] = marginX / 4 * sumComps[conn_comps[i] - 1];
+                        yFactor[i] = yFactor[i - 1] * 2 + vertex_size*sumComps[conn_comps[i] - 1]/2;/// 4 * sumComps[conn_comps[i] - 1];
+                    }
+                }
+
+                //circle calculations (2PI * normalized)
+                for (int i = 0; i < total_vertices; i++)
+                {
+                    double angle = 2 * Math.PI * countComps[conn_comps[i] - 1] / sumComps[conn_comps[i]-1];
+                    //y = 2pi sin(angle), x = 2pi cos(angle), placement has to be added in order to move from (0,0) coordinate;
+                    coordinates.Add(new Point(sumComps[conn_comps[i] - 1] * marginX / 4 * Math.Cos(angle) + xFactor[conn_comps[i]-1] + DEFAULT_CONSTANT, sumComps[conn_comps[i] - 1] * marginY / 4 * Math.Sin(angle) + yFactor[conn_comps[i] - 1]));
+                    ++countComps[conn_comps[i] - 1];
+                }
+
+                //adjusting background height and width
+                int height = 0 ;
+                int width = 0;
+                for (int i = 0; i < comps; i++)
+                {
+                    if (xFactor[i] > width)
+                        width = xFactor[i]*2;
+                    if (i + 1 == comps)
+                        height = yFactor[i]*2 + comps*3*DEFAULT_CONSTANT;
+                }
+
+                width += 3*DEFAULT_CONSTANT;
+
+                //adjust canvas
+                MainViewModel.getInstance().CanvasHeight = height;
+                MainViewModel.getInstance().CanvasWidth = width;
             }
             //general draw algorithm random
             else
