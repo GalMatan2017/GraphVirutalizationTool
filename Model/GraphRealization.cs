@@ -16,6 +16,9 @@ namespace GraphVisualisationTool.Model
         public void draw<T>(Graph graph,int[] colorArr,int[] conn_comps, int vertex_size, int marginX, int marginY)
         {
 
+            MainViewModel.getInstance().ProgressText = "Drawing, Please wait...";
+            MainViewModel.getInstance().ProgressVal = 70;
+
             List<Vertex> vertices = new List<Vertex>();
             List<Edge> edges = new List<Edge>();
             Random random = new Random();
@@ -144,7 +147,7 @@ namespace GraphVisualisationTool.Model
                     ++sumComps[conn_comps[i] - 1];
 
                 //init first drawing
-                yFactor[0] = sumComps[conn_comps[0] - 1] * vertex_size;
+                yFactor[0] = marginY / 4 * sumComps[conn_comps[0] - 1];
                 xFactor[0] = marginX / 4 * sumComps[conn_comps[0] - 1];
 
                 //iterating except first drawing
@@ -154,7 +157,7 @@ namespace GraphVisualisationTool.Model
                     if (i != 0)
                     {
                         xFactor[i] = marginX / 4 * sumComps[conn_comps[i] - 1];
-                        yFactor[i] = yFactor[i - 1] * 2 + vertex_size*sumComps[conn_comps[i] - 1]/2;/// 4 * sumComps[conn_comps[i] - 1];
+                        yFactor[i] = yFactor[i - 1] * 2 + vertex_size*sumComps[conn_comps[i] - 1] / 2;
                     }
                 }
 
@@ -163,23 +166,22 @@ namespace GraphVisualisationTool.Model
                 {
                     double angle = 2 * Math.PI * countComps[conn_comps[i] - 1] / sumComps[conn_comps[i]-1];
                     //y = 2pi sin(angle), x = 2pi cos(angle), placement has to be added in order to move from (0,0) coordinate;
-                    coordinates.Add(new Point(sumComps[conn_comps[i] - 1] * marginX / 4 * Math.Cos(angle) + xFactor[conn_comps[i]-1] + DEFAULT_CONSTANT, sumComps[conn_comps[i] - 1] * marginY / 4 * Math.Sin(angle) + yFactor[conn_comps[i] - 1]));
+                    coordinates.Add(new Point(sumComps[conn_comps[i] - 1] * marginX / 4 * Math.Cos(angle) + xFactor[conn_comps[i]-1] + DEFAULT_CONSTANT, sumComps[conn_comps[i] - 1] * DEFAULT_CONSTANT / 4 * Math.Sin(angle) + yFactor[conn_comps[i] - 1] + DEFAULT_CONSTANT) ) ;
                     ++countComps[conn_comps[i] - 1];
                 }
 
                 //adjusting background height and width
-                int height = 0 ;
+                int height = 0;
                 int width = 0;
                 for (int i = 0; i < comps; i++)
                 {
                     if (xFactor[i] > width)
-                        width = xFactor[i]*2;
+                        width = xFactor[i] * 2;
                     if (i + 1 == comps)
-                        height = yFactor[i]*2 + comps*3*DEFAULT_CONSTANT;
+                        height = yFactor[i]* 2 +  3 * DEFAULT_CONSTANT;
                 }
 
-                width += 3*DEFAULT_CONSTANT;
-
+                width += 3 * DEFAULT_CONSTANT;
                 //adjust canvas
                 MainViewModel.getInstance().CanvasHeight = height;
                 MainViewModel.getInstance().CanvasWidth = width;
@@ -303,6 +305,7 @@ namespace GraphVisualisationTool.Model
                 graph.EdgesAmount = count;
             }
             //draw
+            MainViewModel.getInstance().ProgressVal = 85;
             MainViewModel.getInstance().Vertices = new System.Collections.ObjectModel.ObservableCollection<Vertex>(vertices);
             MainViewModel.getInstance().Edges = new System.Collections.ObjectModel.ObservableCollection<Edge>(edges);
 
@@ -318,6 +321,7 @@ namespace GraphVisualisationTool.Model
                     for (int i = 0; i < vertices.Count; i++)
                         vertices[i].VertexColor = new SolidColorBrush(Colors.Orange);
                 }
+                MainViewModel.getInstance().ProgressVal = 100;
 
             }));
         }

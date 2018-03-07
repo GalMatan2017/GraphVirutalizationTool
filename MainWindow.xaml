@@ -140,8 +140,13 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <ProgressBar Grid.Row="1" Grid.ColumnSpan="3"/>
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">My Text</TextBlock>
+        <TextBlock Text="Graph Visualisation Tool - Matan Atias and Gal Ben yosef" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ProgressBar Value="{Binding ProgressVal}"  Minimum="0" Maximum="100" Grid.Row="1" Grid.ColumnSpan="3" Visibility="{Binding DataContext.ShowProgressBar, 
+                                               RelativeSource={RelativeSource FindAncestor, AncestorType=Window},
+                                               Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <TextBlock Text="{Binding ProgressText}" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding DataContext.ShowProgressBar, 
+                                               RelativeSource={RelativeSource FindAncestor, AncestorType=Window},
+                                               Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>
 

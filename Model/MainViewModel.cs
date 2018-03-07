@@ -90,6 +90,17 @@ namespace GraphVisualisationTool
                 OnPropertyChanged("ShowNames");
             }
         }
+
+        private bool _showProgressbar;
+        public bool ShowProgressBar
+        {
+            get { return _showProgressbar; }
+            set
+            {
+                _showProgressbar = value;
+                OnPropertyChanged("ShowProgressBar");
+            }
+        }
         #endregion
 
         #region Canvas
@@ -118,6 +129,37 @@ namespace GraphVisualisationTool
             {
                 _canvasWidth = value;
                 OnPropertyChanged("CanvasWidth");
+            }
+        }
+        #endregion
+
+        #region Progress Bar
+        private string progressText;
+        public string ProgressText
+        {
+            get
+            {
+                return progressText;
+            }
+            set
+            {
+                if (value != null)
+                    progressText = value;
+                OnPropertyChanged("ProgressText");
+            }
+        }
+
+        private int progressVal;
+        public int ProgressVal
+        {
+            get
+            {
+                return progressVal;
+            }
+            set
+            {
+                progressVal = value;
+                OnPropertyChanged("ProgressVal");
             }
         }
         #endregion

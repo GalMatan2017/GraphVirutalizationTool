@@ -26,6 +26,7 @@ namespace GraphVisualisationTool
             DataContext = this;
             globals = FileGlobalVars.getInstance();
             fileName.DataContext = globals;
+            MainViewModel.getInstance().ShowProgressBar = false;
 
         }
 
@@ -53,6 +54,11 @@ namespace GraphVisualisationTool
                 }
                 #endregion
 
+
+                MainViewModel.getInstance().ShowProgressBar = true;
+                MainViewModel.getInstance().ProgressText = "Loading, Please wait...";
+                MainViewModel.getInstance().ProgressVal = 5;
+
                 if (type == GraphTypes.Dense)
                 {
                     #region Dense
@@ -68,7 +74,6 @@ namespace GraphVisualisationTool
                         MessageBox.Show(ex.Message);
                         return;
                     }
-
                     #region synchronous
 
                     //graph.setData(data);
@@ -158,7 +163,6 @@ namespace GraphVisualisationTool
                 }
 
                 zoom.Value = 6;
-
                 zoom.ValueChanged += zoom_ValueChanged;
                 spaceX.ValueChanged += spaceX_ValueChanged;
                 spaceY.ValueChanged += spaceY_ValueChanged;
@@ -177,6 +181,8 @@ namespace GraphVisualisationTool
                     isCon_cb.IsChecked = true;
                 else
                     isCon_cb.IsChecked = false;
+
+                MainViewModel.getInstance().ShowProgressBar = false;
             }
         }
 
@@ -208,6 +214,8 @@ namespace GraphVisualisationTool
                 {
                     setViewNotBi();
                 }
+                MainViewModel.getInstance().ProgressText = "Adjacency matrix loaded successfully!";
+                MainViewModel.getInstance().ProgressVal = 50;
             }));
         }
 
@@ -239,7 +247,8 @@ namespace GraphVisualisationTool
                 {
                     setViewNotBi();
                 }
-
+                MainViewModel.getInstance().ProgressText = "Adjacency list loaded successfully!";
+                MainViewModel.getInstance().ProgressVal = 50;
             }));
         }
 
