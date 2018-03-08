@@ -109,7 +109,7 @@
             </ListBox.ItemsSource>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate x:Name="canvas" >
-                    <Canvas Loaded="Canvas_Loaded" IsItemsHost="True" Background="Beige" Height="{Binding CanvasHeight}" Width="{Binding CanvasWidth}"/>
+                    <Canvas Loaded="Canvas_Loaded" IsItemsHost="True" Background="White" Height="{Binding CanvasHeight}" Width="{Binding CanvasWidth}"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemContainerStyle>
