@@ -162,7 +162,7 @@ namespace GraphVisualisationTool
                     #endregion
                 }
 
-                zoom.Value = 5;
+                zoom.Value = 6;
                 zoom.ValueChanged += zoom_ValueChanged;
                 spaceX.ValueChanged += spaceX_ValueChanged;
                 spaceY.ValueChanged += spaceY_ValueChanged;
@@ -252,10 +252,21 @@ namespace GraphVisualisationTool
             }));
         }
 
+        
         private async Task redrawAsync() {
             int vertexSize = Vertex.vertexSize;
-            int space_Y = (int)spaceY.Value+2;
-            int space_X = (int)spaceX.Value;
+            int space_Y, space_X;
+            if (graph.ConnectedComps > 1)
+            {
+                space_Y = (int) spaceY.Value+2;
+                space_X = (int)spaceX.Value ;
+            }
+            else
+            {
+                space_Y = (int) spaceY.Value ;
+                space_X = (int)spaceX.Value ;
+            }
+            
 
             await Task.Factory.StartNew(() =>
             redraw(Vertex.vertexSize, space_X, space_Y)
@@ -319,7 +330,7 @@ namespace GraphVisualisationTool
         {
             foreach (var vertex in MainViewModel.getInstance().Vertices)
             {
-                vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6;
+                vertex.VertexSize = GraphRealization.DEFAULT_CONSTANT * (int)zoom.Value/6 -1;
             }
             await redrawAsync();
         }

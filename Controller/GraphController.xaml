@@ -55,7 +55,7 @@
             <TextBlock Grid.Row="12" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Space Y</TextBlock>
             <Slider  Grid.ColumnSpan="2" Grid.Row="13" Name="spaceY" Maximum="20" Minimum="1" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
             <TextBlock Grid.Row="14" HorizontalAlignment="Center"  Grid.ColumnSpan="2">Zoom</TextBlock>
-            <Slider  Grid.ColumnSpan="2" Grid.Row="15" Name="zoom" Value="5" Maximum="7" Minimum="3" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,5" ></Slider>
+            <Slider  Grid.ColumnSpan="2" Grid.Row="15" Name="zoom" Value="6" Maximum="8" Minimum="4" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,5" ></Slider>
             <Button  Grid.ColumnSpan="2" Grid.Row="16" Content="Save" Width="50" Click="SaveGraph"></Button>
         </Grid>
         
