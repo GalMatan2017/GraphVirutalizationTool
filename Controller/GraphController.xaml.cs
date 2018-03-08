@@ -162,7 +162,7 @@ namespace GraphVisualisationTool
                     #endregion
                 }
 
-                zoom.Value = 6;
+                zoom.Value = 5;
                 zoom.ValueChanged += zoom_ValueChanged;
                 spaceX.ValueChanged += spaceX_ValueChanged;
                 spaceY.ValueChanged += spaceY_ValueChanged;
@@ -254,7 +254,7 @@ namespace GraphVisualisationTool
 
         private async Task redrawAsync() {
             int vertexSize = Vertex.vertexSize;
-            int space_Y = (int)spaceY.Value;
+            int space_Y = (int)spaceY.Value+2;
             int space_X = (int)spaceX.Value;
 
             await Task.Factory.StartNew(() =>
